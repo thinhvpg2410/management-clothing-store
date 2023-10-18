@@ -20,10 +20,13 @@ public class GD_DangNhap extends JFrame {
         add(panel);
 
         JPanel pNorth = new JPanel();
-        pNorth.add(lbTitle = new JLabel("CỬA HÀNG THỜI TRANG BOBBI"));
+        lbTitle = new JLabel("CỬA HÀNG THỜI TRANG BOBBI");
+
         lbTitle.setForeground(Color.decode("#CD2653"));
 
-        lbTitle.setBackground(Color.decode("#F5EFE0"));
+//        lbTitle.setBackground(Color.decode("#F5EFE0"));
+        pNorth.add(lbTitle);
+        pNorth.setOpaque(false);
 
         panel.add(pNorth, BorderLayout.NORTH);
 
