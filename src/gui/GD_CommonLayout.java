@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
@@ -56,30 +57,39 @@ public class GD_CommonLayout extends JFrame {
 	private JPanel sideBarUI() {
 		JPanel sideBar = new JPanel(new BorderLayout());
 		JPanel top = new JPanel();
-		JPanel center = new JPanel();
+		JPanel center = new JPanel(new GridLayout(8, 1, 0, 10));
 		JPanel bottom = new JPanel();
-		Box boxContainer = Box.createVerticalBox();
+		JPanel user = new JPanel();
 		sideBar.add(top, BorderLayout.NORTH);
 		sideBar.add(center, BorderLayout.CENTER);
 		sideBar.add(bottom, BorderLayout.SOUTH);
 		
-		top.setPreferredSize(new Dimension(WIDTH/7, HEIGHT/4));
-		bottom.setPreferredSize(new Dimension(WIDTH/7, HEIGHT/5));
-		sideBar.setPreferredSize(new Dimension(WIDTH/7, HEIGHT));
+		top.setPreferredSize(new Dimension(WIDTH/6, 100));
+		bottom.setPreferredSize(new Dimension(WIDTH/6, 50));
+		sideBar.setPreferredSize(new Dimension(WIDTH/6, HEIGHT));
+		user.setPreferredSize(new Dimension(200, 80));
 		
 		Color backgroundColorSideBar = Color.decode("#CD2653");
+		Color backgroundColorUser = Color.decode("#F8A4BB");
 		sideBar.setBackground(backgroundColorSideBar);
 		top.setBackground(backgroundColorSideBar);
 		bottom.setBackground(backgroundColorSideBar);
-		boxContainer.setBackground(backgroundColorSideBar);
 		center.setBackground(backgroundColorSideBar);
+		user.setBackground(backgroundColorUser);
+		
 		String[] title = {"BÁN HÀNG (F1)", "KHÁCH HÀNG (F2)", "NHÂN VIÊN (F3)", "QUẦN ÁO (F4)"
-				+ "NHÀ CUNG CẤP (F5)", "THỐNG KÊ (F6)", "HOÁ ĐƠN (F7)", "HƯỚNG DẪN SỬ DỤNG (F8)"};
+				,"NHÀ CUNG CẤP (F5)", "THỐNG KÊ (F6)", "HOÁ ĐƠN (F7)", "HƯỚNG DẪN SỬ DỤNG (F8)"};
 		String rootPath = "img/icon/";
-		String[] filePath = {"shopping-cart.png"};
-		ImageIcon icon = new ImageIcon(createImage("img/icon/shopping-cart.png", 30, 30));
-		boxContainer.add(menuLabel);
-		center.add(boxContainer);
+		String fileExplorer = ".png";
+		String[] fileName = {"shopping-cart", "customer", "staff", "clothers", "supplier", "statistics", "bill", "help"};
+		for (int i = 0; i < title.length; i++) {
+			String filePath = rootPath + fileName[i] + fileExplorer;
+			ImageIcon icon = new ImageIcon(createImage(filePath, 30, 30));
+			Box menuPanel = createMenuPanel(icon, title[i]);
+			center.add(menuPanel);
+		}
+		top.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+		top.add(user);
 		return sideBar;
 	}
 	
@@ -90,17 +100,23 @@ public class GD_CommonLayout extends JFrame {
 	}
 	
 	//Additional Function
-	private JPanel createMenuLabel(ImageIcon icon, String title) {
-		JPanel menuLabel = new JPanel();
+	private Box createMenuPanel(ImageIcon icon, String title) {
+		Box box = Box.createHorizontalBox();
+		Box titleBox = Box.createVerticalBox();
 		JLabel iconLabel = new JLabel(icon);
-		JLabel titleLabel = new JLabel("<html><b style='color: #ffffff; front-size: 22'>" + title + "</b></html>");
-		titleLabel.setPreferredSize(new Dimension(WIDTH/9, 30));
-		menuLabel.setBackground(new Color(0, 0, 0, 0));
-		menuLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
+		JLabel titleLabel = new JLabel("<html><b style='color: #ffffff; font-size: 12'>" + title + "</b></html>");
+		
+		
+		box.setBackground(new Color(0, 0, 0, 0));
+		box.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
 
-		menuLabel.add(iconLabel);
-		menuLabel.add(titleLabel);
-		return menuLabel;
+		box.add(Box.createHorizontalStrut(10));
+		box.add(iconLabel);
+		box.add(Box.createHorizontalStrut(5));
+		titleBox.add(Box.createVerticalStrut(17));
+		titleBox.add(titleLabel);
+		box.add(titleBox);
+		return box;
 	}
 	private Image createImage(String imagePath, int width, int height) {
 		 try {
