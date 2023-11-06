@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -10,6 +11,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.zip.Inflater;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -59,7 +61,9 @@ public class GD_CommonLayout extends JFrame {
 		JPanel top = new JPanel();
 		JPanel center = new JPanel(new GridLayout(8, 1, 0, 10));
 		JPanel bottom = new JPanel();
-		JPanel user = new JPanel();
+		Box user = Box.createHorizontalBox();
+		Box userInfo = Box.createVerticalBox();
+		
 		sideBar.add(top, BorderLayout.NORTH);
 		sideBar.add(center, BorderLayout.CENTER);
 		sideBar.add(bottom, BorderLayout.SOUTH);
@@ -76,7 +80,7 @@ public class GD_CommonLayout extends JFrame {
 		bottom.setBackground(backgroundColorSideBar);
 		center.setBackground(backgroundColorSideBar);
 		user.setBackground(backgroundColorUser);
-		
+		userInfo.setBackground(backgroundColorUser);
 		String[] title = {"BÁN HÀNG (F1)", "KHÁCH HÀNG (F2)", "NHÂN VIÊN (F3)", "QUẦN ÁO (F4)"
 				,"NHÀ CUNG CẤP (F5)", "THỐNG KÊ (F6)", "HOÁ ĐƠN (F7)", "HƯỚNG DẪN SỬ DỤNG (F8)"};
 		String rootPath = "img/icon/";
@@ -88,6 +92,17 @@ public class GD_CommonLayout extends JFrame {
 			Box menuPanel = createMenuPanel(icon, title[i]);
 			center.add(menuPanel);
 		}
+		ImageIcon userIcon = new ImageIcon(createImage("img/icon/user.png", 50, 50));
+		JLabel userLabel = new JLabel(userIcon);
+		JLabel userName = new JLabel("TIÊN TRẦN");
+		JLabel userPosition = new JLabel("- QUẢN LÝ");
+		userName.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
+		userPosition.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
+		user.add(userLabel);
+		user.add(Box.createHorizontalStrut(10));
+		user.add(userInfo);
+		userInfo.add(userName);
+		userInfo.add(userPosition);
 		top.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 		top.add(user);
 		return sideBar;
