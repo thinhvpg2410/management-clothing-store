@@ -27,6 +27,7 @@ public abstract class GD_CommonLayout extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private final int WIDTH = 1400;
 	private final int HEIGHT = 1000;
+	
 	public GD_CommonLayout(String title) {
 		//setup screan
 		super("CỬA HÀNG BÁN QUẦN ÁO THỜI TRANG BOBBI");
@@ -36,17 +37,17 @@ public abstract class GD_CommonLayout extends JFrame {
 		
 		//create layout
 		JPanel container = new JPanel(new BorderLayout());
+		JPanel main = new JPanel(new BorderLayout());
 		JPanel navigation = navigationUI(title);
 		JPanel sideBar = sideBarUI();
 		JPanel content = contentUI();
-		
-		content.add(navigation, BorderLayout.NORTH);
 		container.add(sideBar, BorderLayout.WEST);
-		container.add(content, BorderLayout.CENTER);
-		
+		container.add(main, BorderLayout.CENTER);
+		main.add(navigation, BorderLayout.NORTH);
+		main.add(content);
 		Color backgroundColorContainer = Color.decode("#F5EFE0");
 		container.setBackground(backgroundColorContainer);
-		
+		main.setBackground(new Color(0, 0, 0, 0));
 		container.add(sideBar, BorderLayout.WEST);
 		this.add(container);
 	}
@@ -57,13 +58,14 @@ public abstract class GD_CommonLayout extends JFrame {
 		nav.setPreferredSize(new Dimension(WIDTH - WIDTH/7, 70));
 		nav.setBackground(new Color(0, 0, 0, 0));
 		nav.add(lblTitle);
+		nav.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		return nav;
 	}
 	
 	private JPanel sideBarUI() {
 		JPanel sideBar = new JPanel(new BorderLayout());
 		JPanel top = new JPanel();
-		JPanel center = new JPanel(new GridLayout(8, 1, 0, 10));
+		JPanel center = new JPanel(new GridLayout(8, 1, 0, 0));
 		JPanel bottom = new JPanel();
 		Box user = Box.createHorizontalBox();
 		Box userInfo = Box.createVerticalBox();
@@ -78,13 +80,11 @@ public abstract class GD_CommonLayout extends JFrame {
 		user.setPreferredSize(new Dimension(200, 80));
 		
 		Color backgroundColorSideBar = Color.decode("#CD2653");
-		Color backgroundColorUser = Color.decode("#F8A4BB");
+//		Color backgroundColorUser = Color.decode("#F8A4BB");
 		sideBar.setBackground(backgroundColorSideBar);
 		top.setBackground(backgroundColorSideBar);
 		bottom.setBackground(backgroundColorSideBar);
 		center.setBackground(backgroundColorSideBar);
-		user.setBackground(backgroundColorUser);
-		userInfo.setBackground(backgroundColorUser);
 		String[] title = {"BÁN HÀNG (F1)", "KHÁCH HÀNG (F2)", "NHÂN VIÊN (F3)", "QUẦN ÁO (F4)"
 				,"NHÀ CUNG CẤP (F5)", "THỐNG KÊ (F6)", "HOÁ ĐƠN (F7)", "HƯỚNG DẪN SỬ DỤNG (F8)"};
 		String rootPath = "img/icon/";
@@ -103,6 +103,7 @@ public abstract class GD_CommonLayout extends JFrame {
 		JLabel userPosition = new JLabel("- QUẢN LÝ");
 		userName.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
 		userPosition.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
+		user.add(Box.createHorizontalStrut(20));
 		user.add(userLabel);
 		user.add(Box.createHorizontalStrut(10));
 		user.add(userInfo);

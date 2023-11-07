@@ -10,7 +10,8 @@ import java.awt.geom.RoundRectangle2D;
 
 
 public class GD_DangNhap extends JFrame {
-    private JLabel lbTitle, lbTaiKhoan, lbMatKhau, lbQuenMatKhau;
+    private static final long serialVersionUID = 1L;
+	private JLabel lbTitle, lbTaiKhoan, lbMatKhau, lbQuenMatKhau;
     private JTextField txtTaiKhoan;
     private JPasswordField txtMatKhau;
     private JButton btnLogin, btnShowHide;
