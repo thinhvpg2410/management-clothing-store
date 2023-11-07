@@ -2,16 +2,18 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.zip.Inflater;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -20,7 +22,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 public abstract class GD_CommonLayout extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -92,8 +93,9 @@ public abstract class GD_CommonLayout extends JFrame {
 		for (int i = 0; i < title.length; i++) {
 			String filePath = rootPath + fileName[i] + fileExplorer;
 			ImageIcon icon = new ImageIcon(createImage(filePath, 30, 30));
-			Box menuPanel = createMenuPanel(icon, title[i]);
-			center.add(menuPanel);
+			Box menuBox = createMenuBox(icon, title[i]);
+			menuBox.addMouseListener(createHoverEffect(menuBox));
+			center.add(menuBox);
 		}
 		ImageIcon userIcon = new ImageIcon(createImage("img/icon/user.png", 50, 50));
 		JLabel userLabel = new JLabel(userIcon);
@@ -117,15 +119,11 @@ public abstract class GD_CommonLayout extends JFrame {
 //		return content;
 	
 	//Additional Functions
-	private Box createMenuPanel(ImageIcon icon, String title) {
+	private Box createMenuBox(ImageIcon icon, String title) {
 		Box box = Box.createHorizontalBox();
 		Box titleBox = Box.createVerticalBox();
 		JLabel iconLabel = new JLabel(icon);
 		JLabel titleLabel = new JLabel("<html><b style='color: #ffffff; font-size: 12'>" + title + "</b></html>");
-		
-		
-		box.setBackground(new Color(0, 0, 0, 0));
-		box.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
 
 		box.add(Box.createHorizontalStrut(10));
 		box.add(iconLabel);
@@ -133,6 +131,12 @@ public abstract class GD_CommonLayout extends JFrame {
 		titleBox.add(Box.createVerticalStrut(17));
 		titleBox.add(titleLabel);
 		box.add(titleBox);
+		
+		box.setBackground(Color.decode("#CD2653"));
+        box.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
+        box.setForeground(Color.WHITE);
+        box.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        box.setOpaque(true);
 		return box;
 	}
 	private Image createImage(String imagePath, int width, int height) {
@@ -151,4 +155,19 @@ public abstract class GD_CommonLayout extends JFrame {
 		return null;
 
 	}
+	private static MouseAdapter createHoverEffect(Box box) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                box.setBackground(Color.decode("#FF5885")); // Change background color on hover
+                box.repaint();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                box.setBackground(Color.decode("#CD2653")); // Restore original background color
+                box.repaint();
+            }
+        };
+    }
 }
