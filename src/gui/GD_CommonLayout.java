@@ -22,19 +22,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-public class GD_CommonLayout extends JFrame {
+public abstract class GD_CommonLayout extends JFrame {
+	private static final long serialVersionUID = 1L;
 	private final int WIDTH = 1400;
 	private final int HEIGHT = 1000;
-	public GD_CommonLayout() {
+	public GD_CommonLayout(String title) {
 		//setup screan
-		super("Basis Layout");
+		super("CỬA HÀNG BÁN QUẦN ÁO THỜI TRANG BOBBI");
 		setSize(WIDTH, HEIGHT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
 		//create layout
 		JPanel container = new JPanel(new BorderLayout());
-		JPanel navigation = navigationUI();
+		JPanel navigation = navigationUI(title);
 		JPanel sideBar = sideBarUI();
 		JPanel content = contentUI();
 		
@@ -49,10 +50,12 @@ public class GD_CommonLayout extends JFrame {
 		this.add(container);
 	}
 	
-	private JPanel navigationUI() {
+	private JPanel navigationUI(String title) {
+		JLabel lblTitle = new JLabel("<html><b style='color: #CD2653; font-size: 20; font-weight: 900'>"+ title +"</b></html>");
 		JPanel nav = new JPanel();
 		nav.setPreferredSize(new Dimension(WIDTH - WIDTH/7, 70));
 		nav.setBackground(new Color(0, 0, 0, 0));
+		nav.add(lblTitle);
 		return nav;
 	}
 	
@@ -108,13 +111,12 @@ public class GD_CommonLayout extends JFrame {
 		return sideBar;
 	}
 	
-	private JPanel contentUI() {
-		JPanel content = new JPanel(new BorderLayout());
-		content.setBackground(new Color(0, 0, 0, 0));
-		return content;
-	}
+	public abstract JPanel contentUI();
+//		JPanel content = new JPanel(new BorderLayout());
+//		content.setBackground(new Color(0, 0, 0, 0));
+//		return content;
 	
-	//Additional Function
+	//Additional Functions
 	private Box createMenuPanel(ImageIcon icon, String title) {
 		Box box = Box.createHorizontalBox();
 		Box titleBox = Box.createVerticalBox();
@@ -148,8 +150,5 @@ public class GD_CommonLayout extends JFrame {
 		}
 		return null;
 
-	}
-	public static void main(String[] args) {
-		new GD_CommonLayout().setVisible(true);
 	}
 }
