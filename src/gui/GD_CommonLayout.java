@@ -55,7 +55,7 @@ public abstract class GD_CommonLayout extends JFrame {
 	private JPanel navigationUI(String title) {
 		JLabel lblTitle = new JLabel("<html><b style='color: #CD2653; font-size: 20; font-weight: 900'>"+ title +"</b></html>");
 		JPanel nav = new JPanel();
-		nav.setPreferredSize(new Dimension(WIDTH - WIDTH/7, 70));
+		nav.setPreferredSize(new Dimension(WIDTH - WIDTH/7, 60));
 		nav.setBackground(new Color(0, 0, 0, 0));
 		nav.add(lblTitle);
 		nav.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -134,7 +134,7 @@ public abstract class GD_CommonLayout extends JFrame {
 		box.add(titleBox);
 		
 		box.setBackground(Color.decode("#CD2653"));
-        box.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE));
+        box.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.WHITE));
         box.setForeground(Color.WHITE);
         box.setCursor(new Cursor(Cursor.HAND_CURSOR));
         box.setOpaque(true);
