@@ -33,6 +33,7 @@ public abstract class GD_CommonLayout extends JFrame {
 		setSize(WIDTH, HEIGHT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+//		setResizable(false);
 		
 		//create layout
 		JPanel container = new JPanel(new BorderLayout());
@@ -99,8 +100,8 @@ public abstract class GD_CommonLayout extends JFrame {
 		}
 		ImageIcon userIcon = new ImageIcon(createImage("img/icon/user.png", 50, 50));
 		JLabel userLabel = new JLabel(userIcon);
-		JLabel userName = new JLabel("TIÊN TRẦN");
-		JLabel userPosition = new JLabel("- QUẢN LÝ");
+		JLabel userName = new JLabel("{username}");
+		JLabel userPosition = new JLabel("- {role}");
 		userName.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
 		userPosition.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
 		user.add(userLabel);
