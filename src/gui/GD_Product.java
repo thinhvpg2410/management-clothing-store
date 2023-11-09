@@ -5,21 +5,23 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 
-public class GD_Product extends GD_CommonLayout{
+public class GD_Product extends GD_CommonLayout {
 
-	public GD_Product() {
-		super("QUẢN LÝ SẢN PHẨM");
-	}
+    public GD_Product() {
+        super("QUẢN LÝ SẢN PHẨM");
 
-	private static final long serialVersionUID = 1L;
+    }
 
-	@Override
-	public JPanel contentUI() {
-		JPanel content = new JPanel(new BorderLayout());
-		content.setBackground(new Color(0, 0, 0, 0));
-		return content;
-	}
-	public static void main(String[] args) {
-		new GD_Product().setVisible(true);
-	}
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    public JPanel contentUI() {
+        JPanel content = new JPanel(new BorderLayout());
+        content.setBackground(new Color(0, 0, 0, 0));
+        return content;
+    }
+
+    public static void main(String[] args) {
+        new GD_Product().setVisible(true);
+    }
 }
