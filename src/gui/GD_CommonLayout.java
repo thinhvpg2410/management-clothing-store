@@ -9,8 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -49,6 +48,50 @@ public abstract class GD_CommonLayout extends JFrame {
 		container.setBackground(backgroundColorContainer);
 		
 		container.add(sideBar, BorderLayout.WEST);
+		this.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				switch (e.getKeyCode()) {
+					case KeyEvent.VK_F1:
+						System.out.println("Ban Hang");
+						break;
+					case KeyEvent.VK_F2:
+						System.out.println("khach Hang");
+						break;
+					case KeyEvent.VK_F3:
+						System.out.println("NhanVien");
+						break;
+					case KeyEvent.VK_F4:
+						System.out.println("QuanAo");
+						break;
+					case KeyEvent.VK_F5:
+						System.out.println("NCC");
+						break;
+					case KeyEvent.VK_F6:
+						System.out.println("Thong ke");
+						break;
+					case KeyEvent.VK_F7:
+						System.out.println("HoaDon");
+						break;
+					case KeyEvent.VK_F8:
+						System.out.println("HDSD");
+						break;
+					default:
+						// code block
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+			}
+		});
 		this.add(container);
 	}
 	
@@ -97,7 +140,63 @@ public abstract class GD_CommonLayout extends JFrame {
 			Box menuBox = createMenuBox(icon, title[i]);
 			menuBox.addMouseListener(createHoverEffect(menuBox));
 			center.add(menuBox);
+			int finalI = i;
+			menuBox.addMouseListener(new MouseListener() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					switch (finalI) {
+						case 0:
+							System.out.println("Ban Hang");
+							break;
+						case 1:
+							System.out.println("khach Hang");
+							break;
+						case 2:
+							System.out.println("NhanVien");
+							break;
+						case 3:
+							System.out.println("QuanAo");
+							break;
+						case 4:
+							System.out.println("NCC");
+							break;
+						case 5:
+							System.out.println("Thong ke");
+							break;
+						case 6:
+							System.out.println("HoaDon");
+							break;
+						case 7:
+							System.out.println("HDSD");
+							break;
+						default:
+							// code block
+					}
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+
+				}
+			});
+
 		}
+
 		ImageIcon userIcon = new ImageIcon(createImage("img/icon/user.png", 50, 50));
 		JLabel userLabel = new JLabel(userIcon);
 		JLabel userName = new JLabel("{username}");
