@@ -63,6 +63,7 @@ public class GD_DangNhap extends JFrame {
 //         * Add Placeholder to JPasswordField
 //         * Code by: ThinhVPG
 //         */
+
 //        txtMatKhau.addFocusListener(new FocusAdapter() {
 //            @Override
 //            public void focusGained(FocusEvent e) {
