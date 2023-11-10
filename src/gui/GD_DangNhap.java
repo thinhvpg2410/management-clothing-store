@@ -29,9 +29,10 @@ public class GD_DangNhap extends JFrame {
 
         JPanel pCenter = new JPanel();
         pCenter.setLayout(null);
+        pCenter.setBackground(new Color(0,0,0,0));
         pCenter.setPreferredSize(new Dimension(640, 180));
         pCenter.add(lbTaiKhoan = new JLabel("Tài Khoản: "));
-        lbTaiKhoan.setBounds(10, 10, 80, 25);
+        lbTaiKhoan.setBounds(150, 10, 80, 25);
         pCenter.add(txtTaiKhoan = new JTextField());
 
         /**
@@ -56,41 +57,41 @@ public class GD_DangNhap extends JFrame {
                 }
             }
         });
-        txtTaiKhoan.setBounds(90, 10, 250, 25);
+        txtTaiKhoan.setBounds(240, 10, 250, 25);
         pCenter.add(lbMatKhau = new JLabel("Mật khẩu: "));
-        lbMatKhau.setBounds(10, 40, 80, 25);
+        lbMatKhau.setBounds(150, 40, 80, 25);
         pCenter.add(txtMatKhau = new JPasswordField());
-//        /**
-//         * Add Placeholder to JPasswordField
-//         * Code by: ThinhVPG
-//         */
+        /**
+         * Add Placeholder to JPasswordField
+         * Code by: ThinhVPG
+         */
 
-//        txtMatKhau.addFocusListener(new FocusAdapter() {
-//            @Override
-//            public void focusGained(FocusEvent e) {
-//                char[] password = txtMatKhau.getPassword();
-//                if (new String(password).equals(txtMatKhau)) {
-//                    txtMatKhau.setText("");
-//                    txtMatKhau.setEchoChar('*');
-//                }
-//            }
-//
-//            @Override
-//            public void focusLost(FocusEvent e) {
-//                char[] password = txtMatKhau.getPassword();
-//                if (new String(password).isEmpty()) {
-//                    txtMatKhau.setText("Nhập mật Khẩu");
-//                    txtMatKhau.setEchoChar((char) 0);
-//                    txtMatKhau.setForeground(Color.LIGHT_GRAY);
-//
-//                }
-//            }
-//        });
-        txtMatKhau.setBounds(90, 40, 250, 25);
+        txtMatKhau.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                char[] password = txtMatKhau.getPassword();
+                if (new String(password).equals(txtMatKhau)) {
+                    txtMatKhau.setText("");
+                    txtMatKhau.setEchoChar('*');
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                char[] password = txtMatKhau.getPassword();
+                if (new String(password).isEmpty()) {
+                    txtMatKhau.setText("Nhập mật Khẩu");
+                    txtMatKhau.setEchoChar((char) 0);
+                    txtMatKhau.setForeground(Color.LIGHT_GRAY);
+
+                }
+            }
+        });
+        txtMatKhau.setBounds(240, 40, 250, 25);
         pCenter.add(lbQuenMatKhau = new JLabel("Quên Mật khẩu?"));
-        lbQuenMatKhau.setBounds(200, 70, 100, 25);
+        lbQuenMatKhau.setBounds(400, 70, 100, 25);
         pCenter.add(btnLogin = new JButton("Đăng nhập"));
-        btnLogin.setBounds(10, 100, 120, 25);
+        btnLogin.setBounds(150, 100, 120, 25);
         btnLogin.setBackground(Color.decode("#CD2653"));
         btnLogin.setForeground(Color.WHITE);
         btnLogin.setBorder(null);
@@ -134,6 +135,10 @@ public class GD_DangNhap extends JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
         setResizable(false);
+    }
+
+    public static void main(String[] args) {
+        new GD_DangNhap();
     }
 
 }

@@ -58,7 +58,7 @@ public class GD_NhanVien extends GD_CommonLayout {
         txtEmail.setBackground((Color.decode("#F8A4BB")));
         pnInputField.add(txtEmail);
 
-        JLabel lbNamSinh = new JLabel("<html><b style=' font-size: 14;'>" + "Số điện thoại:" + "</b></html>");
+        JLabel lbNamSinh = new JLabel("<html><b style=' font-size: 14;'>" + "Năm sinh:" + "</b></html>");
         lbNamSinh.setBounds(690, 10, 100, 25);
         lbNamSinh.setHorizontalAlignment(JLabel.RIGHT);
         pnInputField.add(lbNamSinh);
@@ -73,11 +73,11 @@ public class GD_NhanVien extends GD_CommonLayout {
         pnInputField.add(lbGioiTinh);
         JRadioButton radNam = new JRadioButton("Nam");
         radNam.setBounds(800, 42, 50, 25);
-        radNam.setBackground(new Color(0, 0, 0, 0));
+//        radNam.setBackground(new Color(0, 0, 0, 0));
         pnInputField.add(radNam);
         JRadioButton radNu = new JRadioButton("Nữ");
         radNu.setBounds(860, 42, 50, 25);
-        radNu.setBackground(new Color(0, 0, 0, 0));
+//        radNu.setBackground(new Color(0, 0, 0, 0));
         pnInputField.add(radNu);
 
         ButtonGroup gender = new ButtonGroup();
@@ -91,6 +91,7 @@ public class GD_NhanVien extends GD_CommonLayout {
         DefaultTableModel model = new DefaultTableModel(colNames, 0);
         JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(super.getWidth() * 5/6, 600));
         pnBot.setPreferredSize(new Dimension(super.getWidth() * 5 / 6, 600));
         pnBot.setBackground(new Color(0, 0, 0, 0));
