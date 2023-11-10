@@ -24,6 +24,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+
 public class GD_Product extends GD_CommonLayout{
 	private static final long serialVersionUID = 1L;
 
@@ -138,4 +139,5 @@ public class GD_Product extends GD_CommonLayout{
 	public static void main(String[] args) {
 		new GD_Product().setVisible(true);
 	}
+
 }
