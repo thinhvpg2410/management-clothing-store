@@ -1,5 +1,4 @@
 package gui;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -94,6 +93,8 @@ public abstract class GD_CommonLayout extends JFrame {
 			String filePath = rootPath + fileName[i] + fileExplorer;
 			ImageIcon icon = new ImageIcon(createImage(filePath, 30, 30));
 			Box menuBox = createMenuBox(icon, title[i]);
+			if(i == 0) menuBox.setBorder(BorderFactory.createMatteBorder(3, 0, 3, 0, Color.WHITE));
+
 			menuBox.addMouseListener(createHoverEffect(menuBox));
 			center.add(menuBox);
 		}
@@ -125,14 +126,14 @@ public abstract class GD_CommonLayout extends JFrame {
 		Box titleBox = Box.createVerticalBox();
 		JLabel iconLabel = new JLabel(icon);
 		JLabel titleLabel = new JLabel("<html><b style='color: #ffffff; font-size: 12'>" + title + "</b></html>");
-
 		box.add(Box.createHorizontalStrut(10));
 		box.add(iconLabel);
 		box.add(Box.createHorizontalStrut(5));
 		titleBox.add(Box.createVerticalStrut(17));
 		titleBox.add(titleLabel);
 		box.add(titleBox);
-		
+		iconLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+		titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 		box.setBackground(Color.decode("#CD2653"));
         box.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.WHITE));
         box.setForeground(Color.WHITE);
@@ -140,7 +141,7 @@ public abstract class GD_CommonLayout extends JFrame {
         box.setOpaque(true);
 		return box;
 	}
-	private Image createImage(String imagePath, int width, int height) {
+	public static Image createImage(String imagePath, int width, int height) {
 		 try {
 			BufferedImage originalImage = ImageIO.read(new FileInputStream(imagePath));
 	        BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -156,7 +157,7 @@ public abstract class GD_CommonLayout extends JFrame {
 		return null;
 
 	}
-	private static MouseAdapter createHoverEffect(Box box) {
+	private static MouseAdapter createHoverEffect(final Box box) {
         return new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -171,4 +172,5 @@ public abstract class GD_CommonLayout extends JFrame {
             }
         };
     }
+
 }
