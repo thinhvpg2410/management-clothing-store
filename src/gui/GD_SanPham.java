@@ -9,14 +9,17 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Area;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -26,12 +29,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-
 
 public class GD_SanPham extends GD_CommonLayout {
     private static final long serialVersionUID = 1L;
@@ -46,11 +43,12 @@ public class GD_SanPham extends GD_CommonLayout {
         JPanel toolbar = new JPanel(new GridLayout(1, 2, 50, 20));
         JPanel productList = new JPanel(new GridLayout(2, 4, 90, 40));
         JPanel paginationContainer = new JPanel();
-
+        JPanel addButton = addUI();
+        
         content.add(toolbar, BorderLayout.NORTH);
         content.add(productList, BorderLayout.CENTER);
         content.add(paginationContainer, BorderLayout.SOUTH);
-
+        
         content.setBackground(new Color(0, 0, 0, 0));
         productList.setBackground(new Color(0, 0, 0, 0));
         paginationContainer.setBackground(new Color(0, 0, 0, 0));
@@ -65,6 +63,7 @@ public class GD_SanPham extends GD_CommonLayout {
         JPanel toolLeft = toolLeftUI();
         JPanel toolRight = toolRightUI();
         paginationContainer.add(pag);
+        paginationContainer.add(addButton);
         paginationContainer.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
         toolbar.setPreferredSize(new Dimension(getWidth(), 60));
         toolbar.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
@@ -220,6 +219,7 @@ public class GD_SanPham extends GD_CommonLayout {
         return productCard;
     }
     public JPanel paginationUI() {
+    	JPanel pagContainer = new JPanel();
     	JPanel pagCenter = new JPanel(new GridLayout(1, 6, 20, 0));
     	Box boxPag = Box.createHorizontalBox();
     	ImageIcon prev = new ImageIcon(createImage("img/icon/pag-prev.png", 15, 15));
@@ -252,9 +252,12 @@ public class GD_SanPham extends GD_CommonLayout {
     	boxPag.add(pagCenter);
     	boxPag.add(Box.createHorizontalStrut(30));
     	boxPag.add(createNodePag(new JLabel(next)));
-    	
+    	pagContainer.setBorder(BorderFactory.createEmptyBorder(0, 260, 0, 260));
+    	pagContainer.setBackground(new Color(0, 0, 0, 0));
     	pag.add(boxPag);
-    	return pag;
+    	pagContainer.add(pag);
+    	
+    	return pagContainer;
     }
     public JPanel createNodePag(JLabel lbl) {
     	lbl.setFont(new Font(Font.MONOSPACED, 1, 13));
@@ -303,7 +306,44 @@ public class GD_SanPham extends GD_CommonLayout {
     	node.add(lbl);
     	return node;
     }
-    
+    private static JPanel addUI() {
+        JPanel bottomPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+            	super.paintComponent(g);
+                Dimension arcs = new Dimension(50, 50);
+                int width = getWidth();
+                int height = getHeight();
+                Graphics2D graphics = (Graphics2D) g;
+                graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Create a buffered image to apply drop shadow
+                BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+                Graphics2D bufferedGraphics = bufferedImage.createGraphics();
+                bufferedGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Draw the translucent black shape with a downward offset
+                bufferedGraphics.setColor(Color.decode("#BCB8AC"));
+                bufferedGraphics.fillRoundRect(5, 7, width - 12, height - 10, arcs.width, arcs.height);
+
+                // Draw the rounded opaque panel with borders on the buffered image
+                bufferedGraphics.setColor(Color.decode("#F8A4BB"));
+                bufferedGraphics.fillRoundRect(0, 0, width - 11, height - 11, arcs.width, arcs.height);
+
+                // Draw the buffered image onto the main graphics
+                graphics.drawImage(bufferedImage, 0, 0, null);
+             }
+        };
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(7, 2, 5, 10));
+        bottomPanel.setBackground(new Color(0, 0, 0, 0));
+        bottomPanel.setPreferredSize(new Dimension(55, 55));
+        bottomPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        ImageIcon icon = new ImageIcon(createImage("img/icon/add.png", 20, 20));
+        JLabel label = new JLabel(icon);
+        bottomPanel.add(label, BorderLayout.CENTER);
+        return bottomPanel;
+    }
+
     public static void main(String[] args) {
         new GD_SanPham().setVisible(true);
     }
