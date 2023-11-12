@@ -9,20 +9,26 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -53,7 +59,6 @@ public class GD_SanPham extends GD_CommonLayout {
         productList.setBackground(new Color(0, 0, 0, 0));
         paginationContainer.setBackground(new Color(0, 0, 0, 0));
         toolbar.setBackground(Color.decode("#F8E2E2"));
-
         for (int i = 0; i < 8; i++) {
             JPanel productCard = createProductCard();
             productList.add(productCard);
@@ -162,7 +167,7 @@ public class GD_SanPham extends GD_CommonLayout {
 //		productCard.setBackground(backgroundColor);
         productCard.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 //		productCard.setBorder(BorderFactory.createRaisedBevelBorder());
-        ImageIcon image = new ImageIcon(createImage("img/product/SP00001.png", 160, 160));
+        ImageIcon image = new ImageIcon(createImage("img/product/roundedImage/SP00001.png", 160, 160));
         JLabel productImage = new JLabel(image);
         productImage.setCursor(new Cursor(Cursor.HAND_CURSOR));
         JLabel title = new JLabel("QUẦN TÂY - NÂU");
@@ -306,7 +311,9 @@ public class GD_SanPham extends GD_CommonLayout {
     	node.add(lbl);
     	return node;
     }
-    private static JPanel addUI() {
+    private JPanel addUI() {
+        ImageIcon icon = new ImageIcon(createImage("img/icon/add.png", 20, 20));
+        JLabel label = new JLabel(icon);
         JPanel bottomPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -334,16 +341,118 @@ public class GD_SanPham extends GD_CommonLayout {
                 graphics.drawImage(bufferedImage, 0, 0, null);
              }
         };
+        bottomPanel.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		showDetailProductDialog();
+        	}
+		});
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(7, 2, 5, 10));
         bottomPanel.setBackground(new Color(0, 0, 0, 0));
         bottomPanel.setPreferredSize(new Dimension(55, 55));
         bottomPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        ImageIcon icon = new ImageIcon(createImage("img/icon/add.png", 20, 20));
-        JLabel label = new JLabel(icon);
         bottomPanel.add(label, BorderLayout.CENTER);
         return bottomPanel;
     }
+    public void showDetailProductDialog() {
+        JDialog detailDialog = new JDialog(this, "CHI TIẾT SẢN PHẨM", true);
+        JPanel layout = new JPanel(new GridLayout(1, 2, 60, 0));
+        detailDialog.setSize(700, 500);
+        detailDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        Image icon = new ImageIcon(createImage("img/product/SP00001.png", 200, 400)).getImage();
+        JPanel btnUpdate = createButtonInDetailProductUI("CẬP NHẬT", "#F8A4BB");
+        JPanel btnClose = createButtonInDetailProductUI("HOÀN TẤT XEM", "#BDE9D1");
+        JPanel btnChooseImage = createButtonInDetailProductUI("CHỌN ẢNH", "#F8A4BB");
+        JPanel chooseImageContainer = new JPanel();
+        JPanel imageContainer = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Dimension arcs = new Dimension(40, 40);
+                int width = getWidth();
+                int height = getHeight();
+                Graphics2D graphics = (Graphics2D) g;
+                graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+
+                // Vẽ hình chữ nhật bo tròn làm background
+                RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(0, 0, width - 1, height - 1, arcs.width, arcs.height);
+                graphics.setClip(roundedRectangle);
+                graphics.drawImage(icon, 0, 0, width, height, (ImageObserver) this);
+                graphics.setClip(null);
+                graphics.setColor(Color.white);
+                graphics.drawRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);//paint border
+            }
+        };
+        String[] label = {"Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Nhập", "Giá Bán", "Thương Hiệu", "Số Lượng Tồn"
+        		, "Màu Sắc", "Ngừng Bán", "Kích Thước", "Đơn Vị Tính"};
+        JPanel inputContainer = new JPanel(new GridLayout(6, 2, 20, 25));
+        for(int i = 0; i < label.length; i++) {
+        	Box group = Box.createVerticalBox();
+        	JLabel lbl = new JLabel(label[i]);
+        	JTextField txt = new JTextField();
+        	txt.setBackground(new Color(0, 0, 0, 0));
+        	txt.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
+        	group.add(lbl);
+        	group.add(txt);
+        	inputContainer.add(group);
+        }
+        chooseImageContainer.setBackground(new Color(0, 0, 0, 20));
+        btnChooseImage.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        imageContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        imageContainer.setLayout(new BorderLayout());
+        chooseImageContainer.add(btnChooseImage);
+        imageContainer.add(chooseImageContainer, BorderLayout.SOUTH);
+        inputContainer.add(btnUpdate);
+        inputContainer.add(btnClose);
+        layout.setBorder(BorderFactory.createEmptyBorder(20, 30, 30, 30));
+        inputContainer.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 20));
+        layout.add(imageContainer);
+        layout.add(inputContainer);
+        detailDialog.add(layout);
+        detailDialog.setLocationRelativeTo(this);
+        detailDialog.setVisible(true);
+        
+    }
+    public JPanel createButtonInDetailProductUI(String label, String color) {
+        JLabel lbl;
+    	JPanel btn = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Dimension arcs = new Dimension(20, 20);
+                int width = getWidth();
+                int height = getHeight();
+                Graphics2D graphics = (Graphics2D) g;
+                graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+
+                //Draws the rounded opaque panel with borders.
+                graphics.setColor(Color.decode(color));
+                if(label.equals("CHỌN ẢNH")) graphics.setColor(new Color(248, 164, 187, 100));
+                graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);//paint background
+                graphics.setColor(Color.white);
+                graphics.drawRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);//paint border
+            }
+        };
+        btn.add(lbl = new JLabel(label));
+        lbl.setForeground(new Color(0, 0, 0, 120));
+        btn.setBorder(BorderFactory.createEmptyBorder(8, 15, 5, 15));
+        btn.setBackground(new Color(0, 0, 0, 0));
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btn.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseEntered(MouseEvent e) {
+        		 if(!label.equals("CHỌN ẢNH"))
+             		lbl.setForeground(Color.WHITE);
+        	}
+        	@Override
+        	public void mouseExited(MouseEvent e) {
+        		 lbl.setForeground(new Color(0, 0, 0, 120));
+        	}
+		});
+        return btn;
+    }
     public static void main(String[] args) {
         new GD_SanPham().setVisible(true);
     }
