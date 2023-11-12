@@ -27,6 +27,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -35,6 +36,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 public class GD_SanPham extends GD_CommonLayout {
     private static final long serialVersionUID = 1L;
@@ -360,9 +365,9 @@ public class GD_SanPham extends GD_CommonLayout {
         detailDialog.setSize(700, 500);
         detailDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         Image icon = new ImageIcon(createImage("img/product/SP00001.png", 200, 400)).getImage();
-        JPanel btnUpdate = createButtonInDetailProductUI("CẬP NHẬT", "#F8A4BB");
+        JPanel btnUpdate = createButtonInDetailProductUI("CẬP NHẬT", "#FAD9E2");
         JPanel btnClose = createButtonInDetailProductUI("HOÀN TẤT XEM", "#BDE9D1");
-        JPanel btnChooseImage = createButtonInDetailProductUI("CHỌN ẢNH", "#F8A4BB");
+        JPanel btnChooseImage = createButtonInDetailProductUI("CHỌN ẢNH", "#DEF4E8");
         JPanel chooseImageContainer = new JPanel();
         JPanel imageContainer = new JPanel(){
             @Override
@@ -386,15 +391,60 @@ public class GD_SanPham extends GD_CommonLayout {
         };
         String[] label = {"Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Nhập", "Giá Bán", "Thương Hiệu", "Số Lượng Tồn"
         		, "Màu Sắc", "Ngừng Bán", "Kích Thước", "Đơn Vị Tính"};
+        String[] value = {"SP00001", "Sơ Mi Hoa", "200,000", "320,000", "GURYCT", "5", "Xám"};
         JPanel inputContainer = new JPanel(new GridLayout(6, 2, 20, 25));
         for(int i = 0; i < label.length; i++) {
         	Box group = Box.createVerticalBox();
-        	JLabel lbl = new JLabel(label[i]);
-        	JTextField txt = new JTextField();
-        	txt.setBackground(new Color(0, 0, 0, 0));
-        	txt.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
-        	group.add(lbl);
-        	group.add(txt);
+	        JLabel lbl = new JLabel(label[i]);
+	        Box b = Box.createHorizontalBox();
+			b.add(lbl);
+			b.add(Box.createHorizontalGlue());
+	        if(i < 7) {
+	        	JTextField txt = new JTextField();
+	        	txt.setBackground(new Color(0, 0, 0, 0));
+	        	txt.setText(value[i]);
+	        	txt.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
+	        	Border margin = new EmptyBorder(0, 6, 0, 0);
+	        	txt.setBorder(new CompoundBorder(txt.getBorder(), margin));
+	        	txt.setForeground(Color.decode("#9A9A9A"));
+	        	if(i == 0) {
+	        		txt.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.decode("#F0CFCF")));
+		        	txt.setBorder(new CompoundBorder(txt.getBorder(), margin));
+	        		txt.setForeground(Color.decode("#CEA1A1"));
+	        		txt.setEditable(false);
+	        	}
+	        	txt.requestFocus(true);
+	        	group.add(b);
+	        	group.add(txt);
+        	}else {
+        		switch (i) {
+					case 7: {
+							JCheckBox ngungBan = new JCheckBox(label[i]);
+				        	group.add(ngungBan);
+				        	break;
+						}
+					case 8: {
+						String[] sizes = {"S", "M", "L", "XL", "XXL"};
+						JComboBox<String> size = new JComboBox<String>(sizes);
+						((JLabel)size.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+						size.setForeground(Color.decode("#9A9A9A"));
+						group.add(b);
+						group.add(Box.createVerticalStrut(2));
+						group.add(size);
+						break;
+					}
+					case 9: {
+						String[] units = {"Cái", "Đôi", "Bộ 3 cái", "Mét"};
+						JComboBox<String> unit = new JComboBox<String>(units);
+						((JLabel)unit.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+						unit.setForeground(Color.decode("#9A9A9A"));
+						group.add(b);
+						group.add(Box.createVerticalStrut(2));
+						group.add(unit);
+						break;
+					}
+	        	}
+        	}
         	inputContainer.add(group);
         }
         chooseImageContainer.setBackground(new Color(0, 0, 0, 20));
