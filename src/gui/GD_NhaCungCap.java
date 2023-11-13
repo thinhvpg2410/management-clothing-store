@@ -58,6 +58,14 @@ public class GD_NhaCungCap extends GD_CommonLayout {
         txtEmail.setBackground((Color.decode("#F8A4BB")));
         pnInputField.add(txtEmail);
 
+        JPanel pnButton = new JPanel();
+        content.add(pnButton,BorderLayout.CENTER);
+        JButton btnThem = new JButton("Thêm");
+        JButton btnCapNhat = new JButton("Cập nhật");
+        JButton btnXoa = new JButton("Xóa");
+        JButton btnLamMoi = new JButton("Làm mới");
+        JButton btnTimKiem = new JButton("Tìm kiếm");
+
         JPanel pnBot = new JPanel();
         content.add(pnBot, BorderLayout.SOUTH);
         String[] colNames = {"Mã nhà cung cấp", "Tên nhà cung cấp", "Email", "SĐT"};
