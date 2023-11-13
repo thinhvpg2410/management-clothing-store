@@ -10,7 +10,7 @@ public class SanPham {
 	private double giaBan;
 	private LocalDate ngayNhap;
 	private int soLuongTon;
-	private boolean trangThai;
+	private String trangThai;
 	private String mauSac;
 	private String kichThuoc;
 	private double thueVAT;
@@ -29,7 +29,7 @@ public class SanPham {
 	}
 
 	public SanPham(String maSP, String tenSP, String donViTinh, double giaNhap, LocalDate ngayNhap,
-			int soLuongTon, boolean trangThai, String mauSac, String kichThuoc, double thueVAT, NhaCungCap maNCC,
+			int soLuongTon, String trangThai, String mauSac, String kichThuoc, double thueVAT, NhaCungCap maNCC,
 			KhuyenMai maKM, String thuongHieu) {
 		super();
 		this.maSP = maSP;
@@ -104,11 +104,11 @@ public class SanPham {
 		this.soLuongTon = soLuongTon;
 	}
 
-	public boolean isTrangThai() {
+	public String isTrangThai() {
 		return trangThai;
 	}
 
-	public void setTrangThai(boolean trangThai) {
+	public void setTrangThai(String trangThai) {
 		this.trangThai = trangThai;
 	}
 
@@ -158,6 +158,14 @@ public class SanPham {
 
 	public void setThuongHieu(String thuongHieu) {
 		this.thuongHieu = thuongHieu;
+	}
+
+	@Override
+	public String toString() {
+		return "SanPham [maSP=" + maSP + ", tenSP=" + tenSP + ", donViTinh=" + donViTinh + ", giaNhap=" + giaNhap
+				+ ", giaBan=" + giaBan + ", ngayNhap=" + ngayNhap + ", soLuongTon=" + soLuongTon + ", trangThai="
+				+ trangThai + ", mauSac=" + mauSac + ", kichThuoc=" + kichThuoc + ", thueVAT=" + thueVAT + ", maNCC="
+				+ maNCC + ", maKM=" + maKM + ", thuongHieu=" + thuongHieu + "]";
 	}
 	
 	

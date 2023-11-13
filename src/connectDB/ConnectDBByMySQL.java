@@ -12,7 +12,7 @@ public class ConnectDBByMySQL {
 		return instance;
 	}
 	public void connect() throws SQLException {
-		String url = "jdbc:mysql://localhost:3306/management-clothing-store";
+		String url = "jdbc:mysql://localhost:3306/management_clothing_store";
 		String user = "root";
 		String pw = "bobbibao";
 		con = DriverManager.getConnection(url, user, pw);

@@ -10,6 +10,9 @@ public class NhaCungCap {
 
     public NhaCungCap() {
     }
+    public NhaCungCap(String maNCC) {
+    	this.maNCC = maNCC;
+    }
 
     public NhaCungCap(String maNCC, String ten, String sdt, DiaChi diaChi) {
         this.maNCC = maNCC;
