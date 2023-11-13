@@ -16,7 +16,7 @@ public class SanPham_dao {
         ds = new ArrayList<SanPham>();
     }
 
-    public static ArrayList<SanPham> getAllSanPham() {
+    public ArrayList<SanPham> getAllSanPham() {
         ArrayList<SanPham> dsSP = new ArrayList<SanPham>();
 
         try {
