@@ -8,7 +8,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class GUI extends GD_CommonLayout {
-    public GUI() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public GUI() {
         super("CỬA HÀNG QUẦN ÁO BOBBI");
     }
 
