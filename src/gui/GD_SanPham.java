@@ -198,9 +198,13 @@ public class GD_SanPham extends GD_CommonLayout {
                 graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);//paint background
             }
         };
-        btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        productImage.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		showDetailProductDialog();
+        	}
+		});
 //		btnDelete.addMouseListener(createHoverEffect(btnDelete));
-
         JPanel pDelete = new JPanel();
         ImageIcon trashIcon = new ImageIcon(createImage("img/icon/trash.png", 17, 17));
         JLabel trashlbl = new JLabel(trashIcon);
@@ -209,6 +213,7 @@ public class GD_SanPham extends GD_CommonLayout {
         pDelete.setBackground(new Color(0, 0, 0, 0));
         btnDelete.setBackground(new Color(0, 0, 0, 0));
         btnDelete.setPreferredSize(new Dimension(100, 30));
+        btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnDelete.add(trashlbl);
         btnDelete.add(textDelete);
 
@@ -224,7 +229,7 @@ public class GD_SanPham extends GD_CommonLayout {
         boxCard.add(price);
         boxCard.add(Box.createVerticalStrut(5));
         boxCard.add(pDelete);
-
+        
         productCard.add(boxCard);
         return productCard;
     }
@@ -349,7 +354,7 @@ public class GD_SanPham extends GD_CommonLayout {
         bottomPanel.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
-        		showDetailProductDialog();
+        		showAddingProductDialog();
         	}
 		});
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(7, 2, 5, 10));
@@ -414,6 +419,105 @@ public class GD_SanPham extends GD_CommonLayout {
 	        		txt.setEditable(false);
 	        	}
 	        	txt.requestFocus(true);
+	        	group.add(b);
+	        	group.add(txt);
+        	}else {
+        		switch (i) {
+					case 7: {
+							JCheckBox ngungBan = new JCheckBox(label[i]);
+				        	group.add(ngungBan);
+				        	break;
+						}
+					case 8: {
+						String[] sizes = {"S", "M", "L", "XL", "XXL"};
+						JComboBox<String> size = new JComboBox<String>(sizes);
+						((JLabel)size.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+						size.setForeground(Color.decode("#9A9A9A"));
+						group.add(b);
+						group.add(Box.createVerticalStrut(2));
+						group.add(size);
+						break;
+					}
+					case 9: {
+						String[] units = {"Cái", "Đôi", "Bộ 3 cái", "Mét"};
+						JComboBox<String> unit = new JComboBox<String>(units);
+						((JLabel)unit.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+						unit.setForeground(Color.decode("#9A9A9A"));
+						group.add(b);
+						group.add(Box.createVerticalStrut(2));
+						group.add(unit);
+						break;
+					}
+	        	}
+        	}
+        	inputContainer.add(group);
+        }
+        chooseImageContainer.setBackground(new Color(0, 0, 0, 20));
+        btnChooseImage.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        imageContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        imageContainer.setLayout(new BorderLayout());
+        chooseImageContainer.add(btnChooseImage);
+        imageContainer.add(chooseImageContainer, BorderLayout.SOUTH);
+        inputContainer.add(btnUpdate);
+        inputContainer.add(btnClose);
+        layout.setBorder(BorderFactory.createEmptyBorder(20, 30, 30, 30));
+        inputContainer.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 20));
+        layout.add(imageContainer);
+        layout.add(inputContainer);
+        detailDialog.add(layout);
+        detailDialog.setLocationRelativeTo(this);
+        detailDialog.setVisible(true);
+        
+    }
+    public void showAddingProductDialog() {
+        JDialog detailDialog = new JDialog(this, "CHI TIẾT SẢN PHẨM", true);
+        JPanel layout = new JPanel(new GridLayout(1, 2, 60, 0));
+        detailDialog.setSize(700, 500);
+        detailDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        Image icon = new ImageIcon(createImage("img/product/defaultProduct.png", 270, 400)).getImage();
+        JPanel btnUpdate = createButtonInDetailProductUI("CẬP NHẬT", "#FAD9E2");
+        JPanel btnClose = createButtonInDetailProductUI("HOÀN TẤT XEM", "#BDE9D1");
+        JPanel btnChooseImage = createButtonInDetailProductUI("CHỌN ẢNH", "#DEF4E8");
+        JPanel chooseImageContainer = new JPanel();
+        JPanel imageContainer = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Dimension arcs = new Dimension(40, 40);
+                int width = getWidth();
+                int height = getHeight();
+                Graphics2D graphics = (Graphics2D) g;
+                graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+
+                graphics.drawImage(icon, 0, 0, width, height, (ImageObserver) this);
+                
+            }
+        };
+        String[] label = {"Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Nhập", "Giá Bán", "Thương Hiệu", "Số Lượng Tồn"
+        		, "Màu Sắc", "Ngừng Bán", "Kích Thước", "Đơn Vị Tính"};
+        JPanel inputContainer = new JPanel(new GridLayout(6, 2, 20, 25));
+        for(int i = 0; i < label.length; i++) {
+        	Box group = Box.createVerticalBox();
+	        JLabel lbl = new JLabel(label[i]);
+	        Box b = Box.createHorizontalBox();
+			b.add(lbl);
+			b.add(Box.createHorizontalGlue());
+	        if(i < 7) {
+	        	JTextField txt = new JTextField();
+	        	txt.setBackground(new Color(0, 0, 0, 0));
+	        	txt.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
+	        	Border margin = new EmptyBorder(0, 6, 0, 0);
+	        	txt.setBorder(new CompoundBorder(txt.getBorder(), margin));
+	        	txt.setForeground(Color.decode("#9A9A9A"));
+	        	if(i == 0) {
+	        		txt.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.decode("#F0CFCF")));
+		        	txt.setBorder(new CompoundBorder(txt.getBorder(), margin));
+	        		txt.setForeground(Color.decode("#CEA1A1"));
+	        		txt.setText("SP00002");
+	        		txt.setFocusable(false);
+	        		txt.setEditable(false);
+	        	}
 	        	group.add(b);
 	        	group.add(txt);
         	}else {
