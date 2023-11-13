@@ -1,5 +1,7 @@
 package gui;
 
+import connectDB.ConnectDBByMySQL;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,11 +9,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class GD_DangNhap extends JFrame {
     private static final long serialVersionUID = 1L;
-	private JLabel lbTitle, lbTaiKhoan, lbMatKhau, lbQuenMatKhau;
+    private JLabel lbTitle, lbTaiKhoan, lbMatKhau, lbQuenMatKhau;
     private JTextField txtTaiKhoan;
     private JPasswordField txtMatKhau;
     private JButton btnLogin, btnShowHide;
@@ -29,7 +35,7 @@ public class GD_DangNhap extends JFrame {
 
         JPanel pCenter = new JPanel();
         pCenter.setLayout(null);
-        pCenter.setBackground(new Color(0,0,0,0));
+        pCenter.setBackground(new Color(0, 0, 0, 0));
         pCenter.setPreferredSize(new Dimension(640, 180));
         pCenter.add(lbTaiKhoan = new JLabel("Tài Khoản: "));
         lbTaiKhoan.setBounds(150, 10, 80, 25);
@@ -97,6 +103,27 @@ public class GD_DangNhap extends JFrame {
         btnLogin.setBorder(null);
         btnLogin.setFocusPainted(false);
 
+        btnLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = txtTaiKhoan.getText();
+                char[] passwordChars = txtMatKhau.getPassword();
+                String password = new String(passwordChars);
+                String role = authenticateUser(username, password);
+
+                if (role != null) {
+                    System.out.println(role);
+                    if ("admin".equals(role)) {
+                        // Perform admin-specific actions
+                    } else if ("user".equals(role)) {
+                        // Perform user-specific actions
+                    }
+                } else {
+                    System.out.println("Invalid");                }
+
+            }
+        });
+
         Icon showPassIcon = new ImageIcon("img/icon/Show.png");
         Icon hidePassIcon = new ImageIcon("img/icon/hide.png");
         pCenter.add(btnShowHide = new JButton(showPassIcon));
@@ -135,6 +162,28 @@ public class GD_DangNhap extends JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
         setResizable(false);
+    }
+
+    private String authenticateUser(String username, String password) {
+        try {
+            ConnectDBByMySQL.getInstance().connect();
+            Connection con = ConnectDBByMySQL.getConnection();
+            String query = "SELECT * FROM users WHERE taiKhoan=? AND matKhau=?";
+            try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, password);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        return resultSet.getString("loaiTaiKhoan");
+                    } else {
+                        return null;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static void main(String[] args) {
