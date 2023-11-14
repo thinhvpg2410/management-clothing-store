@@ -36,7 +36,7 @@ public class GD_BanHang extends GD_CommonLayout{
 		JPanel productInfo = new JPanel(new GridLayout(3, 2, 50, 30));
 		JPanel right = new JPanel(new BorderLayout());
 		Box buttonGroup = Box.createVerticalBox();
-		JPanel billOut = new JPanel(new GridLayout(6, 2, 5, 10));
+		JPanel billOut = new JPanel(new GridLayout(6, 2, 0, 20));
 		bottom.setPreferredSize(new Dimension(getWidth(), 300));
 		top.setPreferredSize(new Dimension(getWidth(), 80));
 		buttonGroup.setPreferredSize(new Dimension(200, 300));
@@ -61,8 +61,17 @@ public class GD_BanHang extends GD_CommonLayout{
 		productInfo.add(generateFormInput("Tồn Kho", 1, Color.WHITE));
 		productInfo.add(generateFormInput("Số Lượng", 1, Color.WHITE));
 		productInfo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 40));
+		
+		String[] lblBillOut = {"Tổng SL Hàng", "Tổng Tiền", "Tổng Tiền Giảm", "Tiền Phải Thu", "Tiền Khách Đưa", "Tiên Trả Khách"};
+		for(int i = 0; i < lblBillOut.length; i++) {
+			billOut.add(new JLabel(lblBillOut[i]));
+			if(i != 4) billOut.add(generatePrettyTextField(1));
+			else billOut.add(generatePrettyTextField(0));
+		}
+		
 		buttonGroup.setBorder(BorderFactory.createLineBorder(Color.black));
-		billOut.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+		billOut.setBorder(BorderFactory.createEmptyBorder(20, 20, 40, 20));
+		
 		
 		right.add(buttonGroup, BorderLayout.WEST);
 		right.add(billOut);
@@ -75,6 +84,7 @@ public class GD_BanHang extends GD_CommonLayout{
 	}
 	public Box generateFormInput(String label, int type, Color color) {
 		Box form = Box.createVerticalBox();
+		if(type != 1) form = Box.createHorizontalBox();
         Box b = Box.createHorizontalBox();
 		JLabel lbl = new JLabel(label);
 		b.add(lbl);
@@ -87,11 +97,29 @@ public class GD_BanHang extends GD_CommonLayout{
     	input.setForeground(Color.decode("#9A9A9A"));
     	if(color.equals(Color.decode("#F0CFCF"))) {
     		input.setForeground(Color.decode("#CEA1A1"));
-    		input.setEditable(false);
+			input.setEditable(false);
+			input.setFocusable(false);
     	}
 		form.add(b);
 		form.add(input);
 		return form;
+	}
+	public JTextField generatePrettyTextField(int type) {
+		JTextField input = new JTextField();
+		String c1 = "#9A9A9A", c2 = "#FFFFFF";
+		if(type == 1) {
+			c1 =  "#CEA1A1";
+			c2 =  "#F0CFCF";
+			input.setEditable(false);
+			input.setFocusable(false);
+		}
+    	input.setForeground(Color.decode(c1));
+		input.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.decode(c2)));
+		input.setBackground(new Color(0, 0, 0, 0));
+    	Border margin = new EmptyBorder(0, 7, 0, 0);
+    	input.setBorder(new CompoundBorder(input.getBorder(), margin));
+		
+		return input;
 	}
 	public static void main(String[] args) {
 		new GD_BanHang().setVisible(true);
