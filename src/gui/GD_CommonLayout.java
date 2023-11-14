@@ -49,6 +49,51 @@ public abstract class GD_CommonLayout extends JFrame {
 		main.setBackground(new Color(0, 0, 0, 0));
 		container.add(sideBar, BorderLayout.WEST);
 		this.add(container);
+
+		this.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				switch (e.getKeyCode()) {
+					case KeyEvent.VK_F1:
+						System.out.println("Ban Hang");
+						break;
+					case KeyEvent.VK_F2:
+						System.out.println("khach Hang");
+						break;
+					case KeyEvent.VK_F3:
+						System.out.println("NhanVien");
+						break;
+					case KeyEvent.VK_F4:
+						System.out.println("QuanAo");
+						break;
+					case KeyEvent.VK_F5:
+						System.out.println("NCC");
+						break;
+					case KeyEvent.VK_F6:
+						System.out.println("Thong ke");
+						break;
+					case KeyEvent.VK_F7:
+						System.out.println("HoaDon");
+						break;
+					case KeyEvent.VK_F8:
+						System.out.println("HDSD");
+						break;
+					default:
+						// code block
+				}
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+			}
+		});
 	}
 	
 	private JPanel navigationUI(String title) {
