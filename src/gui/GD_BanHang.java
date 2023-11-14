@@ -1,7 +1,9 @@
 package gui;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -33,9 +35,9 @@ public class GD_BanHang extends GD_CommonLayout{
 		DefaultTableModel billTableModel = new DefaultTableModel(column, 0);
 		JTable billTable = new JTable(billTableModel);
 		JPanel bottom = new JPanel(new BorderLayout());
-		JPanel productInfo = new JPanel(new GridLayout(3, 2, 50, 30));
+		JPanel productInfo = new JPanel(new GridLayout(3, 2, 50, 40));
 		JPanel right = new JPanel(new BorderLayout());
-		Box buttonGroup = Box.createVerticalBox();
+		JPanel buttonGroup = new JPanel(new GridLayout(5, 1, 10, 10));
 		JPanel billOut = new JPanel(new GridLayout(6, 2, 0, 20));
 		bottom.setPreferredSize(new Dimension(getWidth(), 300));
 		top.setPreferredSize(new Dimension(getWidth(), 80));
@@ -68,8 +70,20 @@ public class GD_BanHang extends GD_CommonLayout{
 			if(i != 4) billOut.add(generatePrettyTextField(1));
 			else billOut.add(generatePrettyTextField(0));
 		}
-		
-		buttonGroup.setBorder(BorderFactory.createLineBorder(Color.black));
+		String[] lblButton = {"LÊN", "TRA CỨU", "TẠO MỚI", "XOÁ", "TREO GD(0)", "XEM HOÁ ĐƠN", "THANH TOÁN"};
+		for(int i = 0; i < lblButton.length; i++) {
+			if(i < 4) {	
+				JPanel groupChild = new JPanel(new GridLayout(1, 2, 5, 5));
+				groupChild.add(generatePrettyButton(lblButton[i]));
+				groupChild.add(generatePrettyButton(lblButton[++i]));
+				buttonGroup.add(groupChild);
+			}else {		
+				buttonGroup.add(generatePrettyButton(lblButton[i]));
+			}
+			
+		}
+//		buttonGroup.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		buttonGroup.setBorder(BorderFactory.createRaisedSoftBevelBorder());
 		billOut.setBorder(BorderFactory.createEmptyBorder(20, 20, 40, 20));
 		
 		
@@ -120,6 +134,16 @@ public class GD_BanHang extends GD_CommonLayout{
     	input.setBorder(new CompoundBorder(input.getBorder(), margin));
 		
 		return input;
+	}
+	public JPanel generatePrettyButton(String label) {
+		JPanel btn = new JPanel();
+		JLabel lbl = new JLabel(label);
+		btn.add(lbl);
+		
+		btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btn.setBackground(Color.decode("#D9D9D9"));
+		btn.setBorder(BorderFactory.createEtchedBorder());
+		return btn;
 	}
 	public static void main(String[] args) {
 		new GD_BanHang().setVisible(true);
