@@ -148,7 +148,6 @@ public class GD_SanPham extends GD_CommonLayout {
     	ImageIcon prev = new ImageIcon(createImage("img/icon/pag-prev.png", 15, 15));
     	ImageIcon next = new ImageIcon(createImage("img/icon/pag-next.png", 15, 15));
     	JPanel pag = new JPanel() {
-    		private static final long serialVersionUID = 1L;
 
 			@Override
             protected void paintComponent(Graphics g) {
@@ -175,6 +174,7 @@ public class GD_SanPham extends GD_CommonLayout {
     	boxPag.add(createNodePag(new JLabel(next)));
     	pagContainer.setBorder(BorderFactory.createEmptyBorder(0, 260, 0, 260));
     	pagContainer.setBackground(new Color(0, 0, 0, 0));
+    	pag.setBackground(new Color(0, 0, 0, 0));
     	pag.add(boxPag);
     	pagContainer.add(pag);
     	
@@ -249,6 +249,7 @@ public class GD_SanPham extends GD_CommonLayout {
         };
         Box boxCard = Box.createVerticalBox();
         productCard.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+        productCard.setBackground(new Color(0, 0, 0, 0));
         Image image = createImage(fileImage, 270, 163);
         JPanel productImage = new JPanel(){
             private static final long serialVersionUID = 1L;
@@ -511,7 +512,7 @@ public class GD_SanPham extends GD_CommonLayout {
         
     }
     public void showAddingProductDialog() {
-        JDialog detailDialog = new JDialog(this, "CHI TIẾT SẢN PHẨM", true);
+        JDialog detailDialog = new JDialog(this, "THÊM SẢN PHẨM", true);
         JPanel layout = new JPanel(new GridLayout(1, 2, 60, 0));
         detailDialog.setSize(700, 500);
         detailDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
