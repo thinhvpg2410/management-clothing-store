@@ -33,10 +33,15 @@ public class GD_BanHang extends GD_CommonLayout{
 		DefaultTableModel billTableModel = new DefaultTableModel(column, 0);
 		JTable billTable = new JTable(billTableModel);
 		JPanel bottom = new JPanel(new BorderLayout());
-		JPanel productInfo = new JPanel(new GridLayout(3, 2, 10, 10));
+		JPanel productInfo = new JPanel(new GridLayout(3, 2, 50, 30));
 		JPanel right = new JPanel(new BorderLayout());
 		Box buttonGroup = Box.createVerticalBox();
 		JPanel billOut = new JPanel(new GridLayout(6, 2, 5, 10));
+		bottom.setPreferredSize(new Dimension(getWidth(), 300));
+		top.setPreferredSize(new Dimension(getWidth(), 80));
+		buttonGroup.setPreferredSize(new Dimension(200, 300));
+		billOut.setPreferredSize(new Dimension(350, 300));
+		
 		top.add(generateFormInput("Số Điện Thoại", 1, Color.white));
 		top.add(Box.createHorizontalStrut(20));
 		top.add(generateFormInput("Tên Khách Hàng", 1,  Color.decode("#F0CFCF")));
@@ -49,26 +54,26 @@ public class GD_BanHang extends GD_CommonLayout{
 		top.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		top.setBackground(new Color(0, 0, 0, 0));
 		
-		bottom.setPreferredSize(new Dimension(getWidth(), 300));
-		top.setPreferredSize(new Dimension(getWidth(), 80));
-		buttonGroup.setPreferredSize(new Dimension(200, 300));
-		billOut.setPreferredSize(new Dimension(350, 300));
-		
-		productInfo.setBorder(BorderFactory.createLineBorder(Color.black));
+		productInfo.add(generateFormInput("Mã Sản Phẩm", 1, Color.WHITE));
+		productInfo.add(generateFormInput("Tên Sản Phẩm", 1, Color.WHITE));
+		productInfo.add(generateFormInput("Đơn Giá", 1, Color.WHITE));
+		productInfo.add(generateFormInput("Mã Giảm Giá", 1, Color.WHITE));
+		productInfo.add(generateFormInput("Tồn Kho", 1, Color.WHITE));
+		productInfo.add(generateFormInput("Số Lượng", 1, Color.WHITE));
+		productInfo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 40));
 		buttonGroup.setBorder(BorderFactory.createLineBorder(Color.black));
 		billOut.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+		
 		right.add(buttonGroup, BorderLayout.WEST);
 		right.add(billOut);
 		bottom.add(productInfo);
 		bottom.add(right, BorderLayout.EAST);
-//		container.setBackground(new Color(0, 0, 0, 0));
 		container.add(top, BorderLayout.NORTH);
 		container.add(new JScrollPane(billTable));
 		container.add(bottom, BorderLayout.SOUTH);
 		return container;
 	}
 	public Box generateFormInput(String label, int type, Color color) {
-
 		Box form = Box.createVerticalBox();
         Box b = Box.createHorizontalBox();
 		JLabel lbl = new JLabel(label);
