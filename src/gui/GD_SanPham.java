@@ -36,6 +36,7 @@ import javax.swing.border.EmptyBorder;
 
 import connectDB.ConnectDBByMySQL;
 import dao.SanPham_dao;
+import entity.NhanVien;
 import entity.SanPham;
 
 public class GD_SanPham extends GD_CommonLayout {
@@ -69,7 +70,8 @@ public class GD_SanPham extends GD_CommonLayout {
         toolbar.setBackground(Color.decode("#F8E2E2"));
         ArrayList<SanPham> dsSP = sp_dao.getAllSanPham();
         for (int i = 0; i < dsSP.size(); i++) {
-        	JPanel productCard = createProductCard(String.format("img/product/roundedImage/SP%05d.png", i + 1), dsSP.get(i).getTenSP(), dsSP.get(i).getGiaBan()+"");
+        	JPanel productCard = createProductCard(String.format("img/product/roundedImage/SP%05d.png", i + 1), dsSP.get(i).getTenSP()
+        			, dsSP.get(i).getGiaBan()+"", dsSP.get(i).getMaSP());
             productList.add(productCard);
         }
         
@@ -224,7 +226,7 @@ public class GD_SanPham extends GD_CommonLayout {
         return bottomPanel;
     }
     
-    private JPanel createProductCard(String fileImage, String title, String price) {
+    private JPanel createProductCard(String fileImage, String title, String price, String ma) {
         JPanel productCard = new JPanel() {
             private static final long serialVersionUID = 1L;
 
@@ -268,7 +270,7 @@ public class GD_SanPham extends GD_CommonLayout {
         productImage.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
-        		showDetailProductDialog();
+        		showDetailProductDialog(ma);
         	}
 		});
         productImage.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -387,7 +389,7 @@ public class GD_SanPham extends GD_CommonLayout {
     	node.add(lbl);
     	return node;
     }
-    public void showDetailProductDialog() {	
+    public void showDetailProductDialog(String ma) {	
         JDialog detailDialog = new JDialog(this, "CHI TIẾT SẢN PHẨM", true);
         JPanel layout = new JPanel(new GridLayout(1, 2, 60, 0));
         detailDialog.setSize(700, 500);
@@ -419,9 +421,17 @@ public class GD_SanPham extends GD_CommonLayout {
                 graphics.drawRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);//paint border
             }
         };
+        SanPham sp = null;
+		try {
+			sp = sp_dao.findSanPham(ma);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         String[] label = {"Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Nhập", "Giá Bán", "Thương Hiệu", "Số Lượng Tồn"
         		, "Màu Sắc", "Ngừng Bán", "Kích Thước", "Đơn Vị Tính"};
-        String[] value = {"SP00001", "Sơ Mi Hoa", "200,000", "320,000", "GURYCT", "5", "Xám"};
+        String[] value = {sp.getMaSP(), sp.getTenSP(), sp.getGiaNhap()+"", sp.getGiaBan()+"", sp.getThuongHieu()+"", sp.getSoLuongTon()+"", sp.getMauSac()};
+        
         JPanel inputContainer = new JPanel(new GridLayout(6, 2, 20, 25));
         for(int i = 0; i < label.length; i++) {
         	Box group = Box.createVerticalBox();

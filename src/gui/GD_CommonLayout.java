@@ -49,6 +49,50 @@ public abstract class GD_CommonLayout extends JFrame {
 		main.setBackground(new Color(0, 0, 0, 0));
 		container.add(sideBar, BorderLayout.WEST);
 		this.add(container);
+		this.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				switch (e.getKeyCode()) {
+					case KeyEvent.VK_F1:
+						System.out.println("Ban Hang");
+						break;
+					case KeyEvent.VK_F2:
+						System.out.println("khach Hang");
+						break;
+					case KeyEvent.VK_F3:
+						System.out.println("NhanVien");
+						break;
+					case KeyEvent.VK_F4:
+						System.out.println("QuanAo");
+						break;
+					case KeyEvent.VK_F5:
+						System.out.println("NCC");
+						break;
+					case KeyEvent.VK_F6:
+						System.out.println("Thong ke");
+						break;
+					case KeyEvent.VK_F7:
+						System.out.println("HoaDon");
+						break;
+					case KeyEvent.VK_F8:
+						System.out.println("HDSD");
+						break;
+					default:
+						// code block
+				}
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+			}
+		});
 	}
 	
 	private JPanel navigationUI(String title) {
@@ -139,6 +183,21 @@ public abstract class GD_CommonLayout extends JFrame {
         box.setForeground(Color.WHITE);
         box.setCursor(new Cursor(Cursor.HAND_CURSOR));
         box.setOpaque(true);
+        box.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		if(title.equals("KHÁCH HÀNG (F2)"))
+        			new GD_KhachHang().setVisible(true);
+        		if(title.equals("NHÂN VIÊN (F3)"))
+        			new GD_NhanVien().setVisible(true);
+        		if(title.equals("NHÀ CUNG CẤP (F5)"))
+        			new GD_NhaCungCap().setVisible(true);
+        		if(title.equals("QUẦN ÁO (F4)"))
+        			new GD_SanPham().setVisible(true);
+        		if(title.equals("HOÁ ĐƠN (F7)"))
+        			new GD_QuanLyHoaDon().setVisible(true);
+        	}
+		});
 		return box;
 	}
 	public static Image createImage(String imagePath, int width, int height) {
@@ -170,6 +229,11 @@ public abstract class GD_CommonLayout extends JFrame {
             public void mouseExited(MouseEvent e) {
                 box.setBackground(Color.decode("#CD2653")); // Restore original background color
                 box.repaint();
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	// TODO Auto-generated method stub
+            	super.mouseClicked(e);
             }
         };
     }
