@@ -7,9 +7,14 @@ import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 public class GD_BanHang extends GD_CommonLayout{
@@ -32,13 +37,23 @@ public class GD_BanHang extends GD_CommonLayout{
 		JPanel right = new JPanel(new BorderLayout());
 		Box buttonGroup = Box.createVerticalBox();
 		JPanel billOut = new JPanel(new GridLayout(6, 2, 5, 10));
+		top.add(generateFormInput("Số Điện Thoại", 1, Color.white));
+		top.add(Box.createHorizontalStrut(20));
+		top.add(generateFormInput("Tên Khách Hàng", 1,  Color.decode("#F0CFCF")));
+		top.add(Box.createHorizontalStrut(20));
+		top.add(generateFormInput("Số Lần Đã Mua", 1,  Color.decode("#F0CFCF")));
+		top.add(Box.createHorizontalStrut(20));
+		top.add(generateFormInput("Tổng Tiền Đã Mua", 1,  Color.decode("#F0CFCF")));
+		top.add(Box.createHorizontalStrut(100));
+		top.add(generateFormInput("Mã Nhân Viên", 1,  Color.decode("#F0CFCF")));
+		top.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		top.setBackground(new Color(0, 0, 0, 0));
 		
 		bottom.setPreferredSize(new Dimension(getWidth(), 300));
 		top.setPreferredSize(new Dimension(getWidth(), 80));
 		buttonGroup.setPreferredSize(new Dimension(200, 300));
 		billOut.setPreferredSize(new Dimension(350, 300));
 		
-		top.setBorder(BorderFactory.createLineBorder(Color.black));
 		productInfo.setBorder(BorderFactory.createLineBorder(Color.black));
 		buttonGroup.setBorder(BorderFactory.createLineBorder(Color.black));
 		billOut.setBorder(BorderFactory.createLineBorder(Color.BLUE));
@@ -46,10 +61,32 @@ public class GD_BanHang extends GD_CommonLayout{
 		right.add(billOut);
 		bottom.add(productInfo);
 		bottom.add(right, BorderLayout.EAST);
+//		container.setBackground(new Color(0, 0, 0, 0));
 		container.add(top, BorderLayout.NORTH);
 		container.add(new JScrollPane(billTable));
 		container.add(bottom, BorderLayout.SOUTH);
 		return container;
+	}
+	public Box generateFormInput(String label, int type, Color color) {
+
+		Box form = Box.createVerticalBox();
+        Box b = Box.createHorizontalBox();
+		JLabel lbl = new JLabel(label);
+		b.add(lbl);
+		b.add(Box.createHorizontalGlue());
+		JTextField input = new JTextField();
+		input.setBackground(new Color(0, 0, 0, 0));
+		input.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, color));
+    	Border margin = new EmptyBorder(0, 7, 0, 0);
+    	input.setBorder(new CompoundBorder(input.getBorder(), margin));
+    	input.setForeground(Color.decode("#9A9A9A"));
+    	if(color.equals(Color.decode("#F0CFCF"))) {
+    		input.setForeground(Color.decode("#CEA1A1"));
+    		input.setEditable(false);
+    	}
+		form.add(b);
+		form.add(input);
+		return form;
 	}
 	public static void main(String[] args) {
 		new GD_BanHang().setVisible(true);
