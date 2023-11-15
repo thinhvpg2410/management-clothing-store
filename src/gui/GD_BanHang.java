@@ -54,7 +54,7 @@ public class GD_BanHang extends GD_CommonLayout{
 		top.add(Box.createHorizontalStrut(100));
 		top.add(generateFormInput("Mã Nhân Viên", 1,  Color.decode("#F0CFCF")));
 		top.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		top.setBackground(new Color(0, 0, 0, 0));
+//		top.setBackground(new Color(0, 0, 0, 0));
 		
 		productInfo.add(generateFormInput("Mã Sản Phẩm", 1, Color.WHITE));
 		productInfo.add(generateFormInput("Tên Sản Phẩm", 1, Color.WHITE));
@@ -63,7 +63,6 @@ public class GD_BanHang extends GD_CommonLayout{
 		productInfo.add(generateFormInput("Tồn Kho", 1, Color.WHITE));
 		productInfo.add(generateFormInput("Số Lượng", 1, Color.WHITE));
 		productInfo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 40));
-		
 		String[] lblBillOut = {"Tổng SL Hàng", "Tổng Tiền", "Tổng Tiền Giảm", "Tiền Phải Thu", "Tiền Khách Đưa", "Tiên Trả Khách"};
 		for(int i = 0; i < lblBillOut.length; i++) {
 			billOut.add(new JLabel(lblBillOut[i]));
@@ -94,6 +93,7 @@ public class GD_BanHang extends GD_CommonLayout{
 		container.add(top, BorderLayout.NORTH);
 		container.add(new JScrollPane(billTable));
 		container.add(bottom, BorderLayout.SOUTH);
+		container.setBackground(Color.decode("#F5EFE0"));
 		return container;
 	}
 	public Box generateFormInput(String label, int type, Color color) {
