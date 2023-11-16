@@ -19,6 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 public class GD_KhuyenMai extends GD_CommonLayout{
 	 private static final long serialVersionUID = 1L;
@@ -32,7 +35,7 @@ public class GD_KhuyenMai extends GD_CommonLayout{
 	public JPanel contentUI() {
 		JPanel container = new JPanel(new BorderLayout());
 		JPanel main = new JPanel(new BorderLayout());
-		JPanel event = new JPanel();
+		JPanel event = eventUI();
 		JPanel toolbar = new JPanel(new GridLayout(1, 2, 50, 20));
 		JPanel tableContainer = new JPanel(new BorderLayout());
 		JPanel table = new JPanel(new GridLayout(0, 1, 0, 10));
@@ -40,7 +43,6 @@ public class GD_KhuyenMai extends GD_CommonLayout{
         JPanel toolRight = toolRightUI();
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		event.setPreferredSize(new Dimension(300, getHeight()));
 		toolbar.setBackground(Color.decode("#F8E2E2"));
 		toolbar.setPreferredSize(new Dimension(getWidth(), 60));
         toolbar.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
@@ -62,6 +64,39 @@ public class GD_KhuyenMai extends GD_CommonLayout{
 		table.setBackground(Color.decode("#F5EFE0"));
 		tableContainer.setBackground(Color.decode("#F5EFE0"));
 		return container;
+	}
+	public JPanel eventUI() {
+		JPanel event = new JPanel(new BorderLayout());
+		JPanel headerContainer = new JPanel();
+		Box header = Box.createHorizontalBox();
+		JPanel gridRow = new JPanel(new GridLayout(14, 1, 0, 10));
+		JLabel lbl = new JLabel("SỰ KIỆN SẮP DIỄN RA");
+		JPanel row = new JPanel();
+		lbl.setFont(new Font(Font.SERIF, Font.BOLD, 16));
+		header.add(Box.createHorizontalStrut(100));
+//		lbl.setForeground(Color.decode("#BFBFBF"));
+		headerContainer.add(header);
+		headerContainer.setPreferredSize(new Dimension(300, 60));
+		headerContainer.setBorder(BorderFactory.createEmptyBorder(17, 10, 0, 10));
+		headerContainer.setBackground(Color.decode("#F8E2E2"));
+		gridRow.setBackground(Color.decode("#F5EFE0"));
+		gridRow.setBorder(BorderFactory.createEmptyBorder(16, 10, 10, 10));
+		row.setBackground(new Color(0, 0, 0, 0));
+
+		row.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
+    	Border margin = new EmptyBorder(0, 7, 0, 0);
+    	row.setBorder(new CompoundBorder(row.getBorder(), margin));
+		lbl.setBackground(new Color(0, 0, 0, 0));
+		row.add(lbl);
+		gridRow.add(row);
+		for(int i = 0; i < 9; i++) {
+			JPanel newRow = new JPanel();
+			gridRow.add(newRow);
+		}
+		event.add(headerContainer, BorderLayout.NORTH);
+		event.add(gridRow);
+		event.setPreferredSize(new Dimension(300, getHeight()));
+		return event;
 	}
 	public JPanel rowTable() {
 		JPanel row = createPrettyPanel();
