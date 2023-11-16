@@ -69,15 +69,24 @@ public class GD_KhuyenMai extends GD_CommonLayout{
 		JPanel event = new JPanel(new BorderLayout());
 		JPanel headerContainer = new JPanel();
 		Box header = Box.createHorizontalBox();
-		JPanel gridRow = new JPanel(new GridLayout(14, 1, 0, 10));
+		JPanel gridRow = new JPanel(new GridLayout(12, 1, 0, 15));
 		JLabel lbl = new JLabel("SỰ KIỆN SẮP DIỄN RA");
 		JPanel row = new JPanel();
+		JLabel lbl1 = new JLabel("Ngày từ: ");
+		JLabel lbl2 = new JLabel("Đến: ");
+		JTextField txt1 = new JTextField(5);
+		JTextField txt2 = new JTextField(5);
 		lbl.setFont(new Font(Font.SERIF, Font.BOLD, 16));
-		header.add(Box.createHorizontalStrut(100));
+		header.add(Box.createHorizontalStrut(50));
+		header.add(lbl1);
+		header.add(txt1);
+		header.add(Box.createHorizontalStrut(10));
+		header.add(lbl2);
+		header.add(txt2);
 //		lbl.setForeground(Color.decode("#BFBFBF"));
 		headerContainer.add(header);
 		headerContainer.setPreferredSize(new Dimension(300, 60));
-		headerContainer.setBorder(BorderFactory.createEmptyBorder(17, 10, 0, 10));
+		headerContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
 		headerContainer.setBackground(Color.decode("#F8E2E2"));
 		gridRow.setBackground(Color.decode("#F5EFE0"));
 		gridRow.setBorder(BorderFactory.createEmptyBorder(16, 10, 10, 10));
@@ -90,8 +99,14 @@ public class GD_KhuyenMai extends GD_CommonLayout{
 		row.add(lbl);
 		gridRow.add(row);
 		for(int i = 0; i < 9; i++) {
-			JPanel newRow = new JPanel();
-			gridRow.add(newRow);
+			Box col1 = Box.createVerticalBox();
+			col1.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+			JLabel l1 = new JLabel("Ngày Nhà Giáo Việt Nam");
+			JLabel l11 = new JLabel("20/11/2023 - Còn 3 ngày");
+			l11.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+			col1.add(l11);
+			col1.add(l1);
+			gridRow.add(col1);
 		}
 		event.add(headerContainer, BorderLayout.NORTH);
 		event.add(gridRow);
