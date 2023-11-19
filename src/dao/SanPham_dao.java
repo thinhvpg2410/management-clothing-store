@@ -16,7 +16,7 @@ public class SanPham_dao {
         ds = new ArrayList<SanPham>();
     }
 
-    public static ArrayList<SanPham> getAllSanPham() {
+    public ArrayList<SanPham> getAllSanPham() {
         ArrayList<SanPham> dsSP = new ArrayList<SanPham>();
 
         try {
@@ -103,5 +103,42 @@ public class SanPham_dao {
             e.printStackTrace();
         }
         return n > 0;
+    }
+    public SanPham findSanPham(String ma) throws SQLException {
+        ConnectDBByMySQL.getInstance().connect();
+        Connection con = ConnectDBByMySQL.getConnection();
+        String sql = "Select * from SanPham where maSP = ?";
+        PreparedStatement st = null;
+        SanPham sp;
+    	try {
+            st = con.prepareStatement(sql);
+            st.setString(1, ma);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            String maSP = rs.getString("maSP");
+            String ten = rs.getString("ten");
+            String donViTinh = rs.getString("donViTinh");
+            double giaNhap = rs.getDouble("giaNhap");
+            double giaBan = rs.getDouble("giaBan");
+            LocalDate ngayNhap = rs.getDate("ngayNhap").toLocalDate();
+            int soLuongTon = rs.getInt("soLuongTon");
+            String trangThai = rs.getString("trangThai");
+            String mauSac = rs.getString("mauSac");
+            String kichThuoc = rs.getString("kichThuoc");
+            double thueVAT = rs.getDouble("thueVAT");
+            String maNCC = rs.getString("maNCC");
+            String maKM = rs.getString("maKM");
+            String thuongHieu = rs.getString("thuongHieu");
+
+            NhaCungCap nhaCungCap = new NhaCungCap(maNCC);
+            KhuyenMai khuyenMai = new KhuyenMai();
+            sp = new SanPham(maSP, ten, donViTinh, giaNhap, ngayNhap, soLuongTon, trangThai, mauSac, kichThuoc, thueVAT, nhaCungCap, khuyenMai, thuongHieu);
+    	} catch (SQLException e) {
+             e.printStackTrace();
+             return null;
+         }finally {
+        	 st.close();
+         }
+    	return sp;
     }
 }
