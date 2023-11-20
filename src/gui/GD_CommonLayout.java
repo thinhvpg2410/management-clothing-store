@@ -49,6 +49,9 @@ public abstract class GD_CommonLayout extends JFrame {
 		main.setBackground(new Color(0, 0, 0, 0));
 		container.add(sideBar, BorderLayout.WEST);
 		this.add(container);
+
+
+
 		this.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
