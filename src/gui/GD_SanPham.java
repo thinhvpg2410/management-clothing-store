@@ -11,20 +11,31 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -36,12 +47,19 @@ import javax.swing.border.EmptyBorder;
 
 import connectDB.ConnectDBByMySQL;
 import dao.SanPham_dao;
+import entity.KhuyenMai;
+import entity.NhaCungCap;
 import entity.NhanVien;
 import entity.SanPham;
 
-public class GD_SanPham extends GD_CommonLayout {
+public class GD_SanPham extends GD_CommonLayout{
     private static final long serialVersionUID = 1L;
     private SanPham_dao sp_dao;
+	private JPanel btnChooseImage;
+	private JComboBox<String> size = null;
+    private JComboBox<String> unit = null;
+	private JPanel imageContainer;
+	private String filepath = "img/product/defaultProduct.png";
     public GD_SanPham() {
         super("QUẢN LÝ SẢN PHẨM");
     }
@@ -398,7 +416,7 @@ public class GD_SanPham extends GD_CommonLayout {
         Image icon = new ImageIcon(createImage("img/product/SP00001.png", 200, 400)).getImage();
         JPanel btnUpdate = createButtonInDetailProductUI("CẬP NHẬT", "#FAD9E2");
         JPanel btnClose = createButtonInDetailProductUI("HOÀN TẤT XEM", "#BDE9D1");
-        JPanel btnChooseImage = createButtonInDetailProductUI("CHỌN ẢNH", "#DEF4E8");
+        btnChooseImage = createButtonInDetailProductUI("CHỌN ẢNH", "#DEF4E8");
         JPanel chooseImageContainer = new JPanel();
         JPanel imageContainer = new JPanel(){
             private static final long serialVersionUID = 1L;
@@ -506,6 +524,26 @@ public class GD_SanPham extends GD_CommonLayout {
         inputContainer.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 20));
         layout.add(imageContainer);
         layout.add(inputContainer);
+        btnChooseImage.addMouseListener(new MouseAdapter() {
+
+			@Override
+        	public void mouseClicked(MouseEvent e) {
+        		JFileChooser img = new JFileChooser();
+    			int result = img.showOpenDialog(null);
+    			System.out.println(result);
+    			System.out.println(JFileChooser.APPROVE_OPTION);
+    			if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = img.getSelectedFile();
+                    String destinationPath = "img/product/" + System.currentTimeMillis() + "_" + selectedFile.getName();
+                    System.out.println(destinationPath);
+                    try {
+                        Files.copy(selectedFile.toPath(), new File(destinationPath).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+        	}
+		});
         detailDialog.add(layout);
         detailDialog.setLocationRelativeTo(this);
         detailDialog.setVisible(true);
@@ -516,25 +554,36 @@ public class GD_SanPham extends GD_CommonLayout {
         JPanel layout = new JPanel(new GridLayout(1, 2, 60, 0));
         detailDialog.setSize(700, 500);
         detailDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        Image icon = new ImageIcon(createImage("img/product/defaultProduct.png", 270, 400)).getImage();
-        JPanel btnUpdate = createButtonInDetailProductUI("THÊM", "#FAD9E2");
+        
+        JPanel btnAdd = createButtonInDetailProductUI("THÊM", "#FAD9E2");
         JPanel btnClose = createButtonInDetailProductUI("THOÁT", "#BDE9D1");
-        JPanel btnChooseImage = createButtonInDetailProductUI("CHỌN ẢNH", "#DEF4E8");
+        btnChooseImage = createButtonInDetailProductUI("CHỌN ẢNH", "#DEF4E8");
         JPanel chooseImageContainer = new JPanel();
-        JPanel imageContainer = new JPanel(){
+        imageContainer = new JPanel(){
             private static final long serialVersionUID = 1L;
-
+            
 			@Override
-            protected void paintComponent(Graphics g) {
+			protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+	            Image icon = new ImageIcon(GD_SanPham.createImage(getFilePath(), 270, 400)).getImage();
+                Dimension arcs = new Dimension(40, 40);
                 int width = getWidth();
                 int height = getHeight();
                 Graphics2D graphics = (Graphics2D) g;
+                
                 graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-
-                graphics.drawImage(icon, 0, 0, width, height, (ImageObserver) this);
-                
+                if(getFilePath().equals("img/product/defaultProduct.png"))
+                	graphics.drawImage(icon, 0, 0, width, height, (ImageObserver) this);
+                else {
+                // Vẽ hình chữ nhật bo tròn làm background
+	                RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(0, 0, width - 1, height - 1, arcs.width, arcs.height);
+	                graphics.setClip(roundedRectangle);
+	                graphics.drawImage(icon, 0, 0, width, height, (ImageObserver) this);
+	                graphics.setClip(null);
+	                graphics.setColor(Color.white);
+	                graphics.drawRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height);//paint border
+                }
             }
         };
         String[] label = {"Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Nhập", "Giá Bán", "Thương Hiệu", "Số Lượng Tồn"
@@ -572,7 +621,7 @@ public class GD_SanPham extends GD_CommonLayout {
 						}
 					case 8: {
 						String[] sizes = {"S", "M", "L", "XL", "XXL"};
-						JComboBox<String> size = new JComboBox<String>(sizes);
+						size = new JComboBox<String>(sizes);
 						((JLabel)size.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 						size.setForeground(Color.decode("#9A9A9A"));
 						group.add(b);
@@ -582,7 +631,7 @@ public class GD_SanPham extends GD_CommonLayout {
 					}
 					case 9: {
 						String[] units = {"Cái", "Đôi", "Bộ 3 cái", "Mét"};
-						JComboBox<String> unit = new JComboBox<String>(units);
+						unit = new JComboBox<String>(units);
 						((JLabel)unit.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 						unit.setForeground(Color.decode("#9A9A9A"));
 						group.add(b);
@@ -608,18 +657,71 @@ public class GD_SanPham extends GD_CommonLayout {
         imageContainer.setLayout(new BorderLayout());
         chooseImageContainer.add(btnChooseImage);
         imageContainer.add(chooseImageContainer, BorderLayout.SOUTH);
-        inputContainer.add(btnUpdate);
+        inputContainer.add(btnAdd);
         inputContainer.add(btnClose);
         layout.setBorder(BorderFactory.createEmptyBorder(20, 30, 30, 30));
         inputContainer.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 20));
         layout.add(imageContainer);
         layout.add(inputContainer);
+        btnChooseImage.addMouseListener(new MouseAdapter() {
+
+			@Override
+        	public void mouseClicked(MouseEvent e) {
+        		JFileChooser img = new JFileChooser();
+    			int result = img.showOpenDialog(null);
+    			System.out.println(JFileChooser.APPROVE_OPTION);
+    			if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = img.getSelectedFile();
+//                    inputCompo
+                    Box b  = (Box) inputContainer.getComponent(0);
+                    JTextField t = (JTextField) b.getComponent(1);
+                    String destinationPath = "img/product/" + t.getText() + ".png";
+                    System.out.println(destinationPath);
+                    try {
+                        Files.copy(selectedFile.toPath(), new File(destinationPath).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        setFilePath(destinationPath);
+                        imageContainer.repaint();
+                        
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+        	}
+		});
+        btnAdd.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		List<String> lst = new ArrayList<String>();
+        		for (Component component : inputContainer.getComponents()) {
+        		    if (component instanceof Box) {
+        		        Box box = (Box) component;
+        		        for (Component innerComponent : box.getComponents()) {
+        		            if (innerComponent instanceof JTextField) {
+        		                JTextField textField = (JTextField) innerComponent;
+        		                String text = textField.getText();
+        		                lst.add(text);
+        		            }
+        		        }
+        		    }
+        		}
+        		String donViTinh = unit.getItemAt(unit.getSelectedIndex());
+        		String kichThuoc = size.getItemAt(unit.getSelectedIndex());
+        		SanPham sp;
+        		sp = new SanPham(lst.get(0), lst.get(1), donViTinh, Double.parseDouble(lst.get(2)), LocalDate.now(), Integer.parseInt(lst.get(5)), "Còn hàng", lst.get(6), kichThuoc, 0.1, null, null, lst.get(4));
+        		System.out.println(sp);
+        	}
+		});
         detailDialog.add(layout);
         detailDialog.setLocationRelativeTo(this);
         detailDialog.setVisible(true);
         
     }
-    
+    public String getFilePath() {
+    	return this.filepath;
+    }
+    public void setFilePath(String newpath) {
+    	this.filepath = newpath;
+    }
     public JPanel createButtonInDetailProductUI(String label, String color) {
         JLabel lbl;
     	JPanel btn = new JPanel(){
@@ -667,7 +769,6 @@ public class GD_SanPham extends GD_CommonLayout {
     public static void main(String[] args) {
         new GD_SanPham().setVisible(true);
     }
-
 }
 
 //setComboBoxIcon(CBfilter, "img/icon/filter.png");
