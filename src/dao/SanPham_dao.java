@@ -107,13 +107,13 @@ public class SanPham_dao {
         }
         return n > 0;
     }
-    public SanPham findSanPham(String ma) throws SQLException {
-        ConnectDBByMySQL.getInstance().connect();
-        Connection con = ConnectDBByMySQL.getConnection();
-        String sql = "Select * from SanPham where maSP = ?";
-        PreparedStatement st = null;
+    public SanPham findSanPham(String ma) {
         SanPham sp;
+        PreparedStatement st = null;
     	try {
+	        ConnectDBByMySQL.getInstance().connect();
+	        Connection con = ConnectDBByMySQL.getConnection();
+	        String sql = "Select * from SanPham where maSP = ?";
             st = con.prepareStatement(sql);
             st.setString(1, ma);
             ResultSet rs = st.executeQuery();
@@ -141,7 +141,12 @@ public class SanPham_dao {
              e.printStackTrace();
              return null;
          }finally {
-        	 st.close();
+        	 try {
+				st.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
          }
     	return sp;
     }
