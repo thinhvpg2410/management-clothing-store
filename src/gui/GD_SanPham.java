@@ -58,6 +58,7 @@ public class GD_SanPham extends GD_CommonLayout{
 	private JPanel btnChooseImage;
 	private JComboBox<String> size = null;
     private JComboBox<String> unit = null;
+	private String destinationPath;
 	private JPanel imageContainer;
 	private String filepath = "img/product/defaultProduct.png";
     public GD_SanPham() {
@@ -470,9 +471,9 @@ public class GD_SanPham extends GD_CommonLayout{
 	        		txt.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.decode("#F0CFCF")));
 		        	txt.setBorder(new CompoundBorder(txt.getBorder(), margin));
 	        		txt.setForeground(Color.decode("#CEA1A1"));
+		        	txt.requestFocus(false);
 	        		txt.setEditable(false);
 	        	}
-	        	txt.requestFocus(true);
 	        	group.add(b);
 	        	group.add(txt);
         	}else {
@@ -586,7 +587,7 @@ public class GD_SanPham extends GD_CommonLayout{
                 }
             }
         };
-        String[] label = {"Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Nhập", "Giá Bán", "Thương Hiệu", "Số Lượng Tồn"
+        String[] label = {"Mã Sản Phẩm", "Tên Sản Phẩm", "Giá Nhập", "Mã Nhà Cung Cấp", "Thương Hiệu", "Số Lượng Tồn"
         		, "Màu Sắc", "Ngừng Bán", "Kích Thước", "Đơn Vị Tính"};
         JPanel inputContainer = new JPanel(new GridLayout(6, 2, 20, 25));
         for(int i = 0; i < label.length; i++) {
@@ -606,7 +607,7 @@ public class GD_SanPham extends GD_CommonLayout{
 	        		txt.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.decode("#F0CFCF")));
 		        	txt.setBorder(new CompoundBorder(txt.getBorder(), margin));
 	        		txt.setForeground(Color.decode("#CEA1A1"));
-	        		txt.setText("SP00002");
+	        		txt.setText("SP00009");
 	        		txt.setFocusable(false);
 	        		txt.setEditable(false);
 	        	}
@@ -675,7 +676,7 @@ public class GD_SanPham extends GD_CommonLayout{
 //                    inputCompo
                     Box b  = (Box) inputContainer.getComponent(0);
                     JTextField t = (JTextField) b.getComponent(1);
-                    String destinationPath = "img/product/" + t.getText() + ".png";
+                    destinationPath = "img/product/" + t.getText() + ".png";
                     System.out.println(destinationPath);
                     try {
                         Files.copy(selectedFile.toPath(), new File(destinationPath).toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -689,7 +690,8 @@ public class GD_SanPham extends GD_CommonLayout{
         	}
 		});
         btnAdd.addMouseListener(new MouseAdapter() {
-        	@Override
+
+			@Override
         	public void mouseClicked(MouseEvent e) {
         		List<String> lst = new ArrayList<String>();
         		for (Component component : inputContainer.getComponents()) {
@@ -705,10 +707,12 @@ public class GD_SanPham extends GD_CommonLayout{
         		    }
         		}
         		String donViTinh = unit.getItemAt(unit.getSelectedIndex());
-        		String kichThuoc = size.getItemAt(unit.getSelectedIndex());
-        		SanPham sp;
-        		sp = new SanPham(lst.get(0), lst.get(1), donViTinh, Double.parseDouble(lst.get(2)), LocalDate.now(), Integer.parseInt(lst.get(5)), "Còn hàng", lst.get(6), kichThuoc, 0.1, null, null, lst.get(4));
+        		String kichThuoc = size.getItemAt(size.getSelectedIndex());
+        		NhaCungCap ncc = new NhaCungCap(lst.get(3));
+        		KhuyenMai km = new KhuyenMai("KM0001");
+        		SanPham sp = new SanPham(lst.get(0), lst.get(1), donViTinh, Double.parseDouble(lst.get(2)), Integer.parseInt(lst.get(5)), "Còn hàng", lst.get(6), kichThuoc, 0.1, ncc, km, lst.get(4), destinationPath);
         		System.out.println(sp);
+        		sp_dao.themSanPham(sp);
         	}
 		});
         detailDialog.add(layout);
