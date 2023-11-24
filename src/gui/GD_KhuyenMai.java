@@ -43,6 +43,7 @@ public class GD_KhuyenMai extends GD_CommonLayout{
         JPanel toolRight = toolRightUI();
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		toolbar.setBackground(Color.decode("#F8E2E2"));
 		toolbar.setPreferredSize(new Dimension(getWidth(), 60));
         toolbar.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
@@ -89,7 +90,7 @@ public class GD_KhuyenMai extends GD_CommonLayout{
 		headerContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
 		headerContainer.setBackground(Color.decode("#F8E2E2"));
 		gridRow.setBackground(Color.decode("#F5EFE0"));
-		gridRow.setBorder(BorderFactory.createEmptyBorder(16, 10, 10, 10));
+		gridRow.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		row.setBackground(new Color(0, 0, 0, 0));
 
 		row.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
@@ -167,11 +168,11 @@ public class GD_KhuyenMai extends GD_CommonLayout{
 	public Box headerTable() {
 		
 		Box header = Box.createHorizontalBox();
-		JLabel lbl1 = new JLabel("Chương Trình Khuyến Mãi");
-		JLabel lbl2 = new JLabel("Mã");
-		JLabel lbl3 = new JLabel("Trạng Thái");
-		JLabel lbl4 = new JLabel("Đơn Hàng Còn Lại");
-		JLabel lbl5 = new JLabel("Tiền KM / Tiền Hàng");
+		JLabel lbl1 = new JLabel("<html><b>Chương Trình Khuyến Mãi</b></html>");
+        JLabel lbl2 = new JLabel("<html><b>Mã</b></html>");
+        JLabel lbl3 = new JLabel("<html><b>Trạng Thái</b></html>");
+        JLabel lbl4 = new JLabel("<html><b>Đơn Hàng Còn Lại</b></html>");
+        JLabel lbl5 = new JLabel("<html><b>Tiền KM / Tiền Hàng</b></html>");
 		JPanel element1 = new JPanel(), element2 = new JPanel(), element3 = new JPanel(), element4 = new JPanel(), element5 = new JPanel();
 		element1.add(lbl1);
 		element2.add(lbl2);
@@ -179,27 +180,37 @@ public class GD_KhuyenMai extends GD_CommonLayout{
 		element4.add(lbl4);
 		element5.add(lbl5);
 
-		element1.setBorder(BorderFactory.createEmptyBorder(15, 0, 20, 0));
-		element2.setBorder(BorderFactory.createEmptyBorder(15, 0, 20, 0));
-		element3.setBorder(BorderFactory.createEmptyBorder(15, 0, 20, 0));
-		element4.setBorder(BorderFactory.createEmptyBorder(15, 0, 20, 0));
-		element5.setBorder(BorderFactory.createEmptyBorder(15, 0, 20, 0));
-//		element1.setBorder(BorderFactory.createLineBorder(Color.black));
-//		element2.setBorder(BorderFactory.createLineBorder(Color.black));
-//		element3.setBorder(BorderFactory.createLineBorder(Color.black));
-//		element4.setBorder(BorderFactory.createLineBorder(Color.black));
-//		element5.setBorder(BorderFactory.createLineBorder(Color.black));
-		element1.setPreferredSize(new Dimension(230, 60));
-		element2.setPreferredSize(new Dimension(50, 60));
-		element3.setPreferredSize(new Dimension(70, 60));
-		element4.setPreferredSize(new Dimension(70, 60));
-		element5.setPreferredSize(new Dimension(90, 60));
+		Border margin = new EmptyBorder(0, 0, 20, 0);
+//		element1.setBorder(BorderFactory.createEmptyBorder(15, 0, 20, 0));
+//		element2.setBorder(BorderFactory.createEmptyBorder(15, 0, 20, 0));
+//		element3.setBorder(BorderFactory.createEmptyBorder(15, 0, 20, 0));
+//		element4.setBorder(BorderFactory.createEmptyBorder(15, 0, 20, 0));
+//		element5.setBorder(BorderFactory.createEmptyBorder(15, 0, 20, 0));
+		element1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.LIGHT_GRAY));
+		element2.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.LIGHT_GRAY));
+		element3.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.LIGHT_GRAY));
+		element4.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.LIGHT_GRAY));
+		element5.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.LIGHT_GRAY));
+//    	Border margin = new EmptyBorder(0, 7, 0, 0);
+    	element1.setBorder(new CompoundBorder(element1.getBorder(), margin));
+    	element2.setBorder(new CompoundBorder(element2.getBorder(), margin));
+    	element3.setBorder(new CompoundBorder(element3.getBorder(), margin));
+    	element4.setBorder(new CompoundBorder(element4.getBorder(), margin));
+    	element5.setBorder(new CompoundBorder(element5.getBorder(), margin));
+    	
+		element1.setPreferredSize(new Dimension(230, 30));
+		element2.setPreferredSize(new Dimension(50, 30));
+		element3.setPreferredSize(new Dimension(70, 30));
+		element4.setPreferredSize(new Dimension(70, 30));
+		element5.setPreferredSize(new Dimension(90, 30));
 
 		element1.setBackground(new Color(0, 0, 0, 0));
 		element2.setBackground(new Color(0, 0, 0, 0));
 		element3.setBackground(new Color(0, 0, 0, 0));
 		element4.setBackground(new Color(0, 0, 0, 0));
 		element5.setBackground(new Color(0, 0, 0, 0));
+		header.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
+		
 		header.add(element1);
 		header.add(element2);
 		header.add(element3);
@@ -215,7 +226,7 @@ public class GD_KhuyenMai extends GD_CommonLayout{
 			@Override
             protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-                Dimension arcs = new Dimension(100, 100);
+                Dimension arcs = new Dimension(70, 70);
                 int width = getWidth();
                 int height = getHeight();
                 Graphics2D graphics = (Graphics2D) g;
