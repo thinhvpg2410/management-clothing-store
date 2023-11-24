@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -12,13 +11,15 @@ import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
+import javax.swing.ImageIcon;
 public class GD_BanHang extends GD_CommonLayout{
 
 	public GD_BanHang() {
@@ -56,12 +57,12 @@ public class GD_BanHang extends GD_CommonLayout{
 		top.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 //		top.setBackground(new Color(0, 0, 0, 0));
 		
-		productInfo.add(generateFormInput("Mã Sản Phẩm", 1, Color.WHITE));
+		productInfo.add(generateSearchInput("Mã Sản Phẩm", 1, Color.WHITE));
 		productInfo.add(generateFormInput("Tên Sản Phẩm", 1, Color.WHITE));
 		productInfo.add(generateFormInput("Đơn Giá", 1, Color.WHITE));
 		productInfo.add(generateFormInput("Mã Giảm Giá", 1, Color.WHITE));
 		productInfo.add(generateFormInput("Tồn Kho", 1, Color.WHITE));
-		productInfo.add(generateFormInput("Số Lượng", 1, Color.WHITE));
+		productInfo.add(generateQuantityInput("Số Lượng", 1, Color.WHITE));
 		productInfo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 40));
 		String[] lblBillOut = {"Tổng SL Hàng", "Tổng Tiền", "Tổng Tiền Giảm", "Tiền Phải Thu", "Tiền Khách Đưa", "Tiên Trả Khách"};
 		for(int i = 0; i < lblBillOut.length; i++) {
@@ -85,7 +86,10 @@ public class GD_BanHang extends GD_CommonLayout{
 		buttonGroup.setBorder(BorderFactory.createRaisedSoftBevelBorder());
 		billOut.setBorder(BorderFactory.createEmptyBorder(20, 20, 40, 20));
 		
-		
+		Box b = (Box) productInfo.getComponent(0);
+		JPanel p = (JPanel) b.getComponent(1);
+		JTextField t = (JTextField) p.getComponent(0);
+//		t.setText(getName());
 		right.add(buttonGroup, BorderLayout.WEST);
 		right.add(billOut);
 		bottom.add(productInfo);
@@ -118,6 +122,49 @@ public class GD_BanHang extends GD_CommonLayout{
 		form.add(input);
 		return form;
 	}
+	public Box generateQuantityInput(String label, int type, Color color) {
+		Box form = Box.createVerticalBox();
+		if(type != 1) form = Box.createHorizontalBox();
+        Box b = Box.createHorizontalBox();
+		JLabel lbl = new JLabel(label);
+		b.add(lbl);
+		b.add(Box.createHorizontalGlue());
+		JSpinner input = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));;
+        ((JSpinner.DefaultEditor) input.getEditor()).getTextField().setHorizontalAlignment(JTextField.LEFT);
+        ((JSpinner.DefaultEditor) input.getEditor()).getTextField().setBackground(new Color(0, 0, 0, 0));
+        ((JSpinner.DefaultEditor) input.getEditor()).getTextField().setBorder(BorderFactory.createEmptyBorder());
+		input.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, color));
+    	Border margin = new EmptyBorder(0, 7, 0, 0);
+    	input.setBorder(new CompoundBorder(input.getBorder(), margin));
+    	input.setForeground(Color.decode("#9A9A9A"));
+		form.add(b);
+		form.add(input);
+		return form;
+	}
+	public Box generateSearchInput(String label, int type, Color color) {
+		Box form = Box.createVerticalBox();
+		if(type != 1) form = Box.createHorizontalBox();
+        Box b = Box.createHorizontalBox();
+		JLabel lbl = new JLabel(label);
+		b.add(lbl);
+		b.add(Box.createHorizontalGlue());
+		JPanel input = new JPanel(new BorderLayout());
+		ImageIcon icon = new ImageIcon(createImage("img/icon/search.png", 20, 20));
+		JLabel lblicon = new JLabel(icon);
+		JTextField txt = new JTextField();
+		txt.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+//		input.setBackground(new Color(0, 0, 0, 0));
+		input.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, color));
+    	Border margin = new EmptyBorder(0, 10, 0, 0);
+    	txt.setBorder(new CompoundBorder(txt.getBorder(), margin));
+    	txt.setForeground(Color.decode("#9A9A9A"));
+    	txt.setBackground(new Color(0, 0, 0, 0));
+    	input.add(txt);
+    	input.add(lblicon, BorderLayout.EAST);
+		form.add(b);
+		form.add(input);
+		return form;
+	}
 	public JTextField generatePrettyTextField(int type) {
 		JTextField input = new JTextField();
 		String c1 = "#9A9A9A", c2 = "#FFFFFF";
@@ -130,7 +177,7 @@ public class GD_BanHang extends GD_CommonLayout{
     	input.setForeground(Color.decode(c1));
 		input.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.decode(c2)));
 		input.setBackground(new Color(0, 0, 0, 0));
-    	Border margin = new EmptyBorder(0, 7, 0, 0);
+    	Border margin = new EmptyBorder(0, 7, 0, 0); 
     	input.setBorder(new CompoundBorder(input.getBorder(), margin));
 		
 		return input;
