@@ -17,7 +17,7 @@ public class SanPham {
 	private NhaCungCap maNCC;
 	private KhuyenMai maKM;
 	private String thuongHieu;
-	
+	private String hinhAnh;
 	
 	public SanPham() {
 		super();
@@ -28,15 +28,38 @@ public class SanPham {
 		this.maSP = maSP;
 	}
 
-	public SanPham(String maSP, String tenSP, String donViTinh, double giaNhap, LocalDate ngayNhap,
+	public SanPham(String maSP, String tenSP, String donViTinh, double giaNhap,
 			int soLuongTon, String trangThai, String mauSac, String kichThuoc, double thueVAT, NhaCungCap maNCC,
-			KhuyenMai maKM, String thuongHieu) {
+			KhuyenMai maKM, String thuongHieu, String hinhAnh) {
 		super();
 		this.maSP = maSP;
 		this.tenSP = tenSP;
 		this.donViTinh = donViTinh;
 		this.giaNhap = giaNhap;
-		this.giaBan = giaNhap + giaNhap*0.2;
+		this.giaBan = giaNhap*2;
+		this.ngayNhap = LocalDate.now();
+		this.soLuongTon = soLuongTon;
+		this.trangThai = trangThai;
+		this.mauSac = mauSac;
+		this.kichThuoc = kichThuoc;
+		this.thueVAT = thueVAT;
+		this.maNCC = maNCC;
+		this.maKM = maKM;
+		this.thuongHieu = thuongHieu;
+		this.hinhAnh = hinhAnh;
+	}
+
+	
+
+	public SanPham(String maSP, String tenSP, String donViTinh, double giaNhap, double giaBan, LocalDate ngayNhap,
+			int soLuongTon, String trangThai, String mauSac, String kichThuoc, double thueVAT, NhaCungCap maNCC,
+			KhuyenMai maKM, String thuongHieu, String hinhAnh) {
+		super();
+		this.maSP = maSP;
+		this.tenSP = tenSP;
+		this.donViTinh = donViTinh;
+		this.giaNhap = giaNhap;
+		this.giaBan = giaBan;
 		this.ngayNhap = ngayNhap;
 		this.soLuongTon = soLuongTon;
 		this.trangThai = trangThai;
@@ -46,6 +69,7 @@ public class SanPham {
 		this.maNCC = maNCC;
 		this.maKM = maKM;
 		this.thuongHieu = thuongHieu;
+		this.hinhAnh = hinhAnh;
 	}
 
 	public String getMaSP() {
@@ -160,12 +184,20 @@ public class SanPham {
 		this.thuongHieu = thuongHieu;
 	}
 
+	public String getHinhAnh() {
+		return hinhAnh;
+	}
+
+	public void setHinhAnh(String hinhAnh) {
+		this.hinhAnh = hinhAnh;
+	}
+
 	@Override
 	public String toString() {
 		return "SanPham [maSP=" + maSP + ", tenSP=" + tenSP + ", donViTinh=" + donViTinh + ", giaNhap=" + giaNhap
 				+ ", giaBan=" + giaBan + ", ngayNhap=" + ngayNhap + ", soLuongTon=" + soLuongTon + ", trangThai="
 				+ trangThai + ", mauSac=" + mauSac + ", kichThuoc=" + kichThuoc + ", thueVAT=" + thueVAT + ", maNCC="
-				+ maNCC + ", maKM=" + maKM + ", thuongHieu=" + thuongHieu + "]";
+				+ maNCC + ", maKM=" + maKM + ", thuongHieu=" + thuongHieu + ", hinhAnh=" + hinhAnh + "]";
 	}
 	
 	
