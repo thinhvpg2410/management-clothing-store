@@ -5,17 +5,18 @@ import java.util.Objects;
 
 public class HoaDon {
 	private String maHD;
-	private double thueVAT;
+	private String maNV;
+	private String maKH;
+
 	private LocalDate ngayLapHD;
 
 	public HoaDon() {
-		super();
 	}
 
-	public HoaDon(String maHD, double thueVAT, LocalDate ngayLapHD) {
-		super();
+	public HoaDon(String maHD, String maNV, String maKH, LocalDate ngayLapHD) {
 		this.maHD = maHD;
-		this.thueVAT = thueVAT;
+		this.maNV = maNV;
+		this.maKH = maKH;
 		this.ngayLapHD = ngayLapHD;
 	}
 
@@ -27,12 +28,20 @@ public class HoaDon {
 		this.maHD = maHD;
 	}
 
-	public double getThueVAT() {
-		return thueVAT;
+	public String getMaNV() {
+		return maNV;
 	}
 
-	public void setThueVAT(double thueVAT) {
-		this.thueVAT = thueVAT;
+	public void setMaNV(String maNV) {
+		this.maNV = maNV;
+	}
+
+	public String getMaKH() {
+		return maKH;
+	}
+
+	public void setMaKH(String maKH) {
+		this.maKH = maKH;
 	}
 
 	public LocalDate getNgayLapHD() {
@@ -44,26 +53,25 @@ public class HoaDon {
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(maHD, ngayLapHD, thueVAT);
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		HoaDon hoaDon = (HoaDon) o;
+		return Objects.equals(maHD, hoaDon.maHD);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HoaDon other = (HoaDon) obj;
-		return Objects.equals(maHD, other.maHD) && Objects.equals(ngayLapHD, other.ngayLapHD)
-				&& Double.doubleToLongBits(thueVAT) == Double.doubleToLongBits(other.thueVAT);
+	public int hashCode() {
+		return Objects.hash(maHD);
 	}
 
 	@Override
 	public String toString() {
-		return "HoaDon [maHD=" + maHD + ", thueVAT=" + thueVAT + ", ngayLapHD=" + ngayLapHD + "]";
+		return "HoaDon{" +
+				"maHD='" + maHD + '\'' +
+				", maNV='" + maNV + '\'' +
+				", maKH='" + maKH + '\'' +
+				", ngayLapHD=" + ngayLapHD +
+				'}';
 	}
-
 }

@@ -6,19 +6,16 @@ public class NhaCungCap {
     private String maNCC;
     private String ten;
     private String sdt;
-    private DiaChi diaChi;
+    private String email;
 
     public NhaCungCap() {
     }
-    public NhaCungCap(String maNCC) {
-    	this.maNCC = maNCC;
-    }
 
-    public NhaCungCap(String maNCC, String ten, String sdt, DiaChi diaChi) {
+    public NhaCungCap(String maNCC, String ten, String sdt, String email) {
         this.maNCC = maNCC;
         this.ten = ten;
         this.sdt = sdt;
-        this.diaChi = diaChi;
+        this.email = email;
     }
 
     public String getMaNCC() {
@@ -45,12 +42,12 @@ public class NhaCungCap {
         this.sdt = sdt;
     }
 
-    public DiaChi getDiaChi() {
-        return diaChi;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDiaChi(DiaChi diaChi) {
-        this.diaChi = diaChi;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
@@ -72,7 +69,7 @@ public class NhaCungCap {
                 "maNCC='" + maNCC + '\'' +
                 ", ten='" + ten + '\'' +
                 ", sdt='" + sdt + '\'' +
-                ", diaChi=" + diaChi +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

@@ -5,21 +5,22 @@ import java.util.Objects;
 public class NhanVien {
 	private String maNV;
 	private String hoTen;
+	private int namSinh;
 	private String eMail;
 	private String sdt;
 	private boolean gioiTinh;
-	private DiaChi diaChi;
+
 
 	public NhanVien() {
 	}
 
-	public NhanVien(String maNV, String hoTen, String eMail, String sdt, boolean gioiTinh, DiaChi diaChi) {
+	public NhanVien(String maNV, String hoTen, int namSinh, String eMail, String sdt, boolean gioiTinh) {
 		this.maNV = maNV;
 		this.hoTen = hoTen;
+		this.namSinh = namSinh;
 		this.eMail = eMail;
 		this.sdt = sdt;
 		this.gioiTinh = gioiTinh;
-		this.diaChi = diaChi;
 	}
 
 	public String getMaNV() {
@@ -36,6 +37,14 @@ public class NhanVien {
 
 	public void setHoTen(String hoTen) {
 		this.hoTen = hoTen;
+	}
+
+	public int getNamSinh() {
+		return namSinh;
+	}
+
+	public void setNamSinh(int namSinh) {
+		this.namSinh = namSinh;
 	}
 
 	public String geteMail() {
@@ -62,17 +71,28 @@ public class NhanVien {
 		this.gioiTinh = gioiTinh;
 	}
 
-	public DiaChi getDiaChi() {
-		return diaChi;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		NhanVien nhanVien = (NhanVien) o;
+		return Objects.equals(maNV, nhanVien.maNV);
 	}
 
-	public void setDiaChi(DiaChi diaChi) {
-		this.diaChi = diaChi;
+	@Override
+	public int hashCode() {
+		return Objects.hash(maNV);
 	}
 
 	@Override
 	public String toString() {
-		return "NhanVien{" + "maNV='" + maNV + '\'' + ", hoTen='" + hoTen + '\'' + ", eMail='" + eMail + '\''
-				+ ", sdt='" + sdt + '\'' + ", gioiTinh=" + gioiTinh + ", diaChi=" + diaChi + '}';
+		return "NhanVien{" +
+				"maNV='" + maNV + '\'' +
+				", hoTen='" + hoTen + '\'' +
+				", namSinh=" + namSinh +
+				", eMail='" + eMail + '\'' +
+				", sdt='" + sdt + '\'' +
+				", gioiTinh=" + gioiTinh +
+				'}';
 	}
 }
